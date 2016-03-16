@@ -1,10 +1,11 @@
-﻿using BookFast.Common;
+﻿using AutoMapper;
+using BookFast.Common;
 using BookFast.Models;
 using BookFast.Services;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Data.Entity;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace BookFast.Composition
 {
@@ -27,6 +28,18 @@ namespace BookFast.Composition
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            RegisterMappers(services);
+        }
+
+        private static void RegisterMappers(IServiceCollection services)
+        {
+            var mapperConfiguration = new MapperConfiguration(config =>
+                                                              {
+                                                                  config.CreateMap<Business.Models.Facility, ViewModels.FacilityViewModel>();
+                                                              });
+
+            services.AddInstance(mapperConfiguration.CreateMapper());
         }
     }
 }

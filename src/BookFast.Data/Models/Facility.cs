@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace BookFast.Business.Models
+namespace BookFast.Data.Models
 {
     public class Facility
     {
@@ -11,6 +12,6 @@ namespace BookFast.Business.Models
         public string StreetAddress { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
-        public int AccommodationCount { get; set; }
+        public ICollection<Accommodation> Accommodations { get; set; }
     }
 }
