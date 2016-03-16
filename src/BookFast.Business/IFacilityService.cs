@@ -9,5 +9,8 @@ namespace BookFast.Business
     {
         Task<List<Facility>> ListByOwnerAsync(string owner);
         Task<Facility> FindAsync(Guid facilityId);
+        Task CreateAsync(Facility facility);
+        Task UpdateAsync(Facility facility);
+        Task DeleteAsync(Guid facilityId);
     }
 }

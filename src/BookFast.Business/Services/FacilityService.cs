@@ -24,5 +24,20 @@ namespace BookFast.Business.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task CreateAsync(Facility facility)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateAsync(Facility facility)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(Guid facilityId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
