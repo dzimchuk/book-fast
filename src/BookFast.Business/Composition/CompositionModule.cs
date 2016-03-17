@@ -10,6 +10,7 @@ namespace BookFast.Business.Composition
         public void AddServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IFacilityService, FacilityService>();
+            services.AddScoped<IAccommodationService, AccommodationService>();
         }
     }
 }

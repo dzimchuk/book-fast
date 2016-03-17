@@ -45,7 +45,7 @@ namespace BookFast.Data
             return command.ApplyAsync(context);
         }
 
-        public Task<bool> Exists(Guid facilityId)
+        public Task<bool> ExistsAsync(Guid facilityId)
         {
             var query = new DoesFaciityExistQuery(facilityId);
             return query.ExecuteAsync(context);

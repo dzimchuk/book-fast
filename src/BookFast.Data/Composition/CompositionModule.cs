@@ -17,6 +17,7 @@ namespace BookFast.Data.Composition
             efBuilder.AddDbContext<BookFastContext>(options => options.UseSqlServer(configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddScoped<IFacilityDataSource, FacilityDataSource>();
+            services.AddScoped<IAccommodationDataSource, AccommodationDataSource>();
 
             RegisterMappers(services);
         }
@@ -52,7 +53,22 @@ namespace BookFast.Data.Composition
                                                                                             });
 
                                                                   config.CreateMap<Business.Models.Accommodation, Accommodation>()
-                                                                        .ForMember(dm => dm.Facility, c => c.Ignore());
+                                                                        .ForMember(dm => dm.Name, c => c.MapFrom(m => m.Details.Name))
+                                                                        .ForMember(dm => dm.Description, c => c.MapFrom(m => m.Details.Description))
+                                                                        .ForMember(dm => dm.RoomCount, c => c.MapFrom(m => m.Details.RoomCount))
+                                                                        .ForMember(dm => dm.Facility, c => c.Ignore())
+                                                                        .ReverseMap()
+                                                                        .ConvertUsing(dm => new Business.Models.Accommodation
+                                                                                            {
+                                                                                                Id = dm.Id,
+                                                                                                FacilityId = dm.FacilityId,
+                                                                                                Details = new Business.Models.AccommodationDetails
+                                                                                                          {
+                                                                                                              Name = dm.Name,
+                                                                                                              Description = dm.Description,
+                                                                                                              RoomCount = dm.RoomCount
+                                                                                                          }
+                                                                                            });
                                                               });
             mapperConfiguration.AssertConfigurationIsValid();
 

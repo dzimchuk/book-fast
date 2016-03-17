@@ -42,6 +42,7 @@ namespace BookFast.Composition
         private static void RegisterMappers(IServiceCollection services)
         {
             services.AddSingleton<IFacilityMapper, FacilityMapper>();
+            services.AddSingleton<IAccommodationMapper, AccommodationMapper>();
         }
     }
 }

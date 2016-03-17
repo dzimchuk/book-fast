@@ -11,7 +11,7 @@ namespace BookFast.Business.Data
         Task<Facility> FindAsync(Guid facilityId);
         Task CreateAsync(Facility facility);
         Task UpdateAsync(Facility facility);
-        Task<bool> Exists(Guid facilityId);
+        Task<bool> ExistsAsync(Guid facilityId);
         Task DeleteAsync(Guid facilityId);
     }
 }

@@ -1,4 +1,4 @@
-@model BookFast.ViewModels.FacilityViewModel
+﻿@model BookFast.ViewModels.AccommodationViewModel
 
 @{
     ViewData["Title"] = "Delete - " + Model.Name;
@@ -6,7 +6,7 @@
 
 <h2>@Model.Name</h2>
 
-<h3>Are you sure you want to delete this facility?</h3>
+<h3>Are you sure you want to delete this accommodation?</h3>
 <div>
     <dl class="dl-horizontal">
         <dt>
@@ -23,17 +23,17 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StreetAddress)
+            @Html.DisplayNameFor(model => model.RoomCount)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.StreetAddress)
+            @Html.DisplayFor(model => model.RoomCount)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" />
-            <a class="btn btn-primary" asp-action="Index">Cancel</a>
+            <a class="btn btn-primary" asp-controller="facility" asp-action="details" asp-route-id="@Model.FacilityId">Cancel</a>
         </div>
     </form>
 </div>

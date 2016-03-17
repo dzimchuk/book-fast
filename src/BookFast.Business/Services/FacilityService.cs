@@ -57,7 +57,7 @@ namespace BookFast.Business.Services
 
         public async Task DeleteAsync(Guid facilityId)
         {
-            if (!await dataSource.Exists(facilityId))
+            if (!await dataSource.ExistsAsync(facilityId))
                 throw new FacilityNotFoundException(facilityId);
 
             await dataSource.DeleteAsync(facilityId);

@@ -1,7 +1,7 @@
-@model BookFast.ViewModels.FacilityViewModel
+﻿@model BookFast.ViewModels.AccommodationViewModel
 
 @{
-    ViewData["Title"] = "Edit - " + Model.Name;
+    ViewBag.Title = "Edit - " + Model.Name;
 }
 
 <h2>@Model.Name</h2>
@@ -25,16 +25,16 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="StreetAddress" class="col-md-2 control-label"></label>
+            <label asp-for="RoomCount" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="StreetAddress" class="form-control" />
-                <span asp-validation-for="StreetAddress" class="text-muted" />
+                <input asp-for="RoomCount" class="form-control" />
+                <span asp-validation-for="RoomCount" class="text-muted" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary"/>
-                <a class="btn btn-default" asp-action="Index">Back to List</a>
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-default" asp-controller="facility" asp-action="details" asp-route-id="@Model.FacilityId">Cancel</a>
             </div>
         </div>
     </div>

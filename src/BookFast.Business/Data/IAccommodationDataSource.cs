@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookFast.Business.Models;
 
-namespace BookFast.Business
+namespace BookFast.Business.Data
 {
-    public interface IAccommodationService
+    public interface IAccommodationDataSource
     {
         Task<List<Accommodation>> ListAsync(Guid facilityId);
         Task<Accommodation> FindAsync(Guid accommodationId);
-        Task CreateAsync(Guid facilityId, AccommodationDetails details);
-        Task UpdateAsync(Guid accommodationId, AccommodationDetails details);
+        Task CreateAsync(Accommodation accommodation);
+        Task UpdateAsync(Accommodation accommodation);
         Task DeleteAsync(Guid accommodationId);
     }
 }
