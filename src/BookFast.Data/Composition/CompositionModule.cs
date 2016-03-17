@@ -1,5 +1,7 @@
-﻿using BookFast.Business.Data;
+﻿using AutoMapper;
+using BookFast.Business.Data;
 using BookFast.Common;
+using BookFast.Data.Models;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,46 @@ namespace BookFast.Data.Composition
             efBuilder.AddDbContext<BookFastContext>(options => options.UseSqlServer(configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddScoped<IFacilityDataSource, FacilityDataSource>();
+
+            RegisterMappers(services);
+        }
+
+        private static void RegisterMappers(IServiceCollection services)
+        {
+            var mapperConfiguration = new MapperConfiguration(config =>
+                                                              {
+                                                                  config.CreateMap<Business.Models.Facility, Facility>()
+                                                                        .ForMember(dm => dm.Name, c => c.MapFrom(m => m.Details.Name))
+                                                                        .ForMember(dm => dm.Description, c => c.MapFrom(m => m.Details.Description))
+                                                                        .ForMember(dm => dm.StreetAddress, c => c.MapFrom(m => m.Details.StreetAddress))
+                                                                        .ForMember(dm => dm.Latitude, c => c.MapFrom(m => m.Location.Latitude))
+                                                                        .ForMember(dm => dm.Longitude, c => c.MapFrom(m => m.Location.Longitude))
+                                                                        .ForMember(dm => dm.Accommodations, c => c.Ignore())
+                                                                        .ReverseMap()
+                                                                        .ConvertUsing(dm => new Business.Models.Facility
+                                                                                            {
+                                                                                                Id = dm.Id,
+                                                                                                Owner = dm.Owner,
+                                                                                                Details = new Business.Models.FacilityDetails
+                                                                                                          {
+                                                                                                              Name = dm.Name,
+                                                                                                              Description = dm.Description,
+                                                                                                              StreetAddress = dm.StreetAddress
+                                                                                                          },
+                                                                                                Location = new Business.Models.Location
+                                                                                                           {
+                                                                                                               Latitude = dm.Latitude,
+                                                                                                               Longitude = dm.Longitude
+                                                                                                           },
+                                                                                                AccommodationCount = dm.AccommodationCount
+                                                                                            });
+
+                                                                  config.CreateMap<Business.Models.Accommodation, Accommodation>()
+                                                                        .ForMember(dm => dm.Facility, c => c.Ignore());
+                                                              });
+            mapperConfiguration.AssertConfigurationIsValid();
+
+            services.AddInstance(mapperConfiguration.CreateMapper());
         }
     }
 }

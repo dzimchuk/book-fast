@@ -1,7 +1,6 @@
-﻿using BookFast.Data.Models;
-using Microsoft.Data.Entity;
+﻿using Microsoft.Data.Entity;
 
-namespace BookFast.Data
+namespace BookFast.Data.Models
 {
     internal class BookFastContext : DbContext
     {
@@ -10,7 +9,7 @@ namespace BookFast.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Models.Facility>()
+            modelBuilder.Entity<Facility>()
                         .HasMany(facility => facility.Accommodations)
                         .WithOne(acc => acc.Facility);
         }

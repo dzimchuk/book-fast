@@ -3,35 +3,31 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookFast.Common;
 using System.Linq;
-using BookFast.Business.Models;
+using AutoMapper;
+using BookFast.Data.Models;
 using Microsoft.Data.Entity;
+using Facility = BookFast.Business.Models.Facility;
 
 namespace BookFast.Data.Queries
 {
     internal class ListFacilitiesByOwnerQuery : IQuery<BookFastContext, List<Facility>>
     {
         private readonly string owner;
+        private readonly IMapper mapper;
 
-        public ListFacilitiesByOwnerQuery(string owner)
+        public ListFacilitiesByOwnerQuery(string owner, IMapper mapper)
         {
             this.owner = owner;
+            this.mapper = mapper;
         }
 
-        public Task<List<Facility>> ExecuteAsync(BookFastContext model)
+        public async Task<List<Facility>> ExecuteAsync(BookFastContext model)
         {
-            return (from f in model.Facilities
-                    where f.Owner.Equals(owner, StringComparison.OrdinalIgnoreCase)
-                    select new Facility
-                           {
-                               Id = f.Id,
-                               Name = f.Name,
-                               Description = f.Description,
-                               Owner = f.Owner,
-                               StreetAddress = f.StreetAddress,
-                               Latitude = f.Latitude,
-                               Longitude = f.Longitude,
-                               AccommodationCount = f.Accommodations.Count
-                           }).ToListAsync();
+            var facilities = await (from f in model.Facilities
+                                    where f.Owner.Equals(owner, StringComparison.OrdinalIgnoreCase)
+                                    select f).ToListAsync();
+
+            return mapper.Map<List<Facility>>(facilities);
         }
     }
 }

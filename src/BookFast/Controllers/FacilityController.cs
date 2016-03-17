@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using BookFast.Business;
+using BookFast.Business.Exceptions;
 using Microsoft.AspNet.Mvc;
 using BookFast.ViewModels;
 using Microsoft.AspNet.Authorization;
@@ -12,9 +12,9 @@ namespace BookFast.Controllers
     public class FacilityController : Controller
     {
         private readonly IFacilityService service;
-        private readonly IMapper mapper;
+        private readonly IFacilityMapper mapper;
 
-        public FacilityController(IFacilityService service, IMapper mapper)
+        public FacilityController(IFacilityService service, IFacilityMapper mapper)
         {
             this.service = service;
             this.mapper = mapper;
@@ -22,9 +22,10 @@ namespace BookFast.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await service.ListByOwnerAsync(User.Identity.Name));
+            var facilities = await service.ListAsync();
+            return View(mapper.MapFrom(facilities));
         }
-        
+
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -32,13 +33,15 @@ namespace BookFast.Controllers
                 return HttpNotFound();
             }
 
-            var facilityViewModel = mapper.Map<FacilityViewModel>(await service.FindAsync(id.Value));
-            if (facilityViewModel == null)
+            try
+            {
+                var facility = await service.FindAsync(id.Value);
+                return View(mapper.MapFrom(facility));
+            }
+            catch (FacilityNotFoundException)
             {
                 return HttpNotFound();
             }
-
-            return View(facilityViewModel);
         }
         
         public IActionResult Create()
@@ -52,7 +55,9 @@ namespace BookFast.Controllers
         {
             if (ModelState.IsValid)
             {
-                await service.CreateAsync(mapper.Map<Business.Models.Facility>(facilityViewModel));
+                var details = mapper.MapFrom(facilityViewModel);
+
+                await service.CreateAsync(details);
                 return RedirectToAction("Index");
             }
             return View(facilityViewModel);
@@ -65,13 +70,15 @@ namespace BookFast.Controllers
                 return HttpNotFound();
             }
 
-            var facilityViewModel = mapper.Map<FacilityViewModel>(await service.FindAsync(id.Value));
-            if (facilityViewModel == null)
+            try
+            {
+                var facility = await service.FindAsync(id.Value);
+                return View(mapper.MapFrom(facility));
+            }
+            catch (FacilityNotFoundException)
             {
                 return HttpNotFound();
             }
-
-            return View(facilityViewModel);
         }
         
         [HttpPost]
@@ -80,14 +87,22 @@ namespace BookFast.Controllers
         {
             if (ModelState.IsValid)
             {
-                await service.UpdateAsync(mapper.Map<Business.Models.Facility>(facilityViewModel));
-                return RedirectToAction("Index");
+                var details = mapper.MapFrom(facilityViewModel);
+
+                try
+                {
+                    await service.UpdateAsync(facilityViewModel.Id, details);
+                    return RedirectToAction("Index");
+                }
+                catch (FacilityNotFoundException)
+                {
+                    return HttpNotFound();
+                }
             }
 
             return View(facilityViewModel);
         }
-
-        // GET: Facility/Delete/5
+        
         [ActionName("Delete")]
         public async Task<IActionResult> Delete(Guid? id)
         {
@@ -96,22 +111,30 @@ namespace BookFast.Controllers
                 return HttpNotFound();
             }
 
-            var facilityViewModel = mapper.Map<FacilityViewModel>(await service.FindAsync(id.Value));
-            if (facilityViewModel == null)
+            try
+            {
+                var facility = await service.FindAsync(id.Value);
+                return View(mapper.MapFrom(facility));
+            }
+            catch (FacilityNotFoundException)
             {
                 return HttpNotFound();
             }
-
-            return View(facilityViewModel);
         }
-
-        // POST: Facility/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            await service.DeleteAsync(id);
-            return RedirectToAction("Index");
+            try
+            {
+                await service.DeleteAsync(id);
+                return RedirectToAction("Index");
+            }
+            catch (FacilityNotFoundException)
+            {
+                return HttpNotFound();
+            }
         }
     }
 }

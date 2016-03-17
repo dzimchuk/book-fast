@@ -1,4 +1,5 @@
 ﻿using BookFast.Common;
+using BookFast.Infrastructure;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -66,6 +67,8 @@ namespace BookFast
             app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+
+            app.UseSecurityContext();
 
             app.UseMvc(routes =>
             {

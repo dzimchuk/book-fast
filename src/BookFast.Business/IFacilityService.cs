@@ -7,10 +7,10 @@ namespace BookFast.Business
 {
     public interface IFacilityService
     {
-        Task<List<Facility>> ListByOwnerAsync(string owner);
+        Task<List<Facility>> ListAsync();
         Task<Facility> FindAsync(Guid facilityId);
-        Task CreateAsync(Facility facility);
-        Task UpdateAsync(Facility facility);
+        Task CreateAsync(FacilityDetails details);
+        Task UpdateAsync(Guid facilityId, FacilityDetails details);
         Task DeleteAsync(Guid facilityId);
     }
 }

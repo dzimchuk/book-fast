@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookFast.Business.Data;
+using BookFast.Business.Exceptions;
 using BookFast.Business.Models;
 
 namespace BookFast.Business.Services
@@ -9,35 +10,57 @@ namespace BookFast.Business.Services
     internal class FacilityService : IFacilityService
     {
         private readonly IFacilityDataSource dataSource;
+        private readonly ISecurityContext securityContext;
 
-        public FacilityService(IFacilityDataSource dataSource)
+        public FacilityService(IFacilityDataSource dataSource, ISecurityContext securityContext)
         {
             this.dataSource = dataSource;
+            this.securityContext = securityContext;
         }
 
-        public Task<List<Facility>> ListByOwnerAsync(string owner)
+        public Task<List<Facility>> ListAsync()
         {
-            return dataSource.ListByOwnerAsync(owner);
+            return dataSource.ListByOwnerAsync(securityContext.GetCurrentTenant());
         }
 
-        public Task<Facility> FindAsync(Guid facilityId)
+        public async Task<Facility> FindAsync(Guid facilityId)
         {
-            throw new NotImplementedException();
+            var facility = await dataSource.FindAsync(facilityId);
+            if (facility == null)
+                throw new FacilityNotFoundException(facilityId);
+
+            return facility;
         }
 
-        public Task CreateAsync(Facility facility)
+        public Task CreateAsync(FacilityDetails details)
         {
-            throw new NotImplementedException();
+            var facility = new Facility
+                           {
+                               Id = Guid.NewGuid(),
+                               Details = details,
+                               Location = new Location(),
+                               Owner = securityContext.GetCurrentTenant()
+                           };
+
+            return dataSource.CreateAsync(facility);
         }
 
-        public Task UpdateAsync(Facility facility)
+        public async Task UpdateAsync(Guid facilityId, FacilityDetails details)
         {
-            throw new NotImplementedException();
+            var facility = await dataSource.FindAsync(facilityId);
+            if (facility == null)
+                throw new FacilityNotFoundException(facilityId);
+
+            facility.Details = details;
+            await dataSource.UpdateAsync(facility);
         }
 
-        public Task DeleteAsync(Guid facilityId)
+        public async Task DeleteAsync(Guid facilityId)
         {
-            throw new NotImplementedException();
+            if (!await dataSource.Exists(facilityId))
+                throw new FacilityNotFoundException(facilityId);
+
+            await dataSource.DeleteAsync(facilityId);
         }
     }
 }
