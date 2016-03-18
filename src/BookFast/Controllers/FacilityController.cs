@@ -11,19 +11,25 @@ namespace BookFast.Controllers
     [Authorize]
     public class FacilityController : Controller
     {
-        private readonly IFacilityService service;
-        private readonly IFacilityMapper mapper;
+        private readonly IFacilityService facilityService;
+        private readonly IFacilityMapper facilityMapper;
 
-        public FacilityController(IFacilityService service, IFacilityMapper mapper)
+        private readonly IAccommodationService accommodationService;
+        private readonly IAccommodationMapper accommodationMapper;
+
+        public FacilityController(IFacilityService facilityService, IFacilityMapper facilityMapper, 
+            IAccommodationService accommodationService, IAccommodationMapper accommodationMapper)
         {
-            this.service = service;
-            this.mapper = mapper;
+            this.facilityService = facilityService;
+            this.facilityMapper = facilityMapper;
+            this.accommodationService = accommodationService;
+            this.accommodationMapper = accommodationMapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            var facilities = await service.ListAsync();
-            return View(mapper.MapFrom(facilities));
+            var facilities = await facilityService.ListAsync();
+            return View(facilityMapper.MapFrom(facilities));
         }
 
         public async Task<IActionResult> Details(Guid? id)
@@ -35,8 +41,13 @@ namespace BookFast.Controllers
 
             try
             {
-                var facility = await service.FindAsync(id.Value);
-                return View(mapper.MapFrom(facility));
+                var facility = await facilityService.FindAsync(id.Value);
+                var accommodations = await accommodationService.ListAsync(facility.Id);
+                return View(new FacilityDetailsViewModel
+                            {
+                                Facility = facilityMapper.MapFrom(facility),
+                                Accommodations = accommodationMapper.MapFrom(accommodations)
+                            });
             }
             catch (FacilityNotFoundException)
             {
@@ -55,9 +66,9 @@ namespace BookFast.Controllers
         {
             if (ModelState.IsValid)
             {
-                var details = mapper.MapFrom(facilityViewModel);
+                var details = facilityMapper.MapFrom(facilityViewModel);
 
-                await service.CreateAsync(details);
+                await facilityService.CreateAsync(details);
                 return RedirectToAction("Index");
             }
             return View(facilityViewModel);
@@ -72,8 +83,8 @@ namespace BookFast.Controllers
 
             try
             {
-                var facility = await service.FindAsync(id.Value);
-                return View(mapper.MapFrom(facility));
+                var facility = await facilityService.FindAsync(id.Value);
+                return View(facilityMapper.MapFrom(facility));
             }
             catch (FacilityNotFoundException)
             {
@@ -87,11 +98,11 @@ namespace BookFast.Controllers
         {
             if (ModelState.IsValid)
             {
-                var details = mapper.MapFrom(facilityViewModel);
+                var details = facilityMapper.MapFrom(facilityViewModel);
 
                 try
                 {
-                    await service.UpdateAsync(facilityViewModel.Id, details);
+                    await facilityService.UpdateAsync(facilityViewModel.Id, details);
                     return RedirectToAction("Index");
                 }
                 catch (FacilityNotFoundException)
@@ -113,8 +124,8 @@ namespace BookFast.Controllers
 
             try
             {
-                var facility = await service.FindAsync(id.Value);
-                return View(mapper.MapFrom(facility));
+                var facility = await facilityService.FindAsync(id.Value);
+                return View(facilityMapper.MapFrom(facility));
             }
             catch (FacilityNotFoundException)
             {
@@ -128,7 +139,7 @@ namespace BookFast.Controllers
         {
             try
             {
-                await service.DeleteAsync(id);
+                await facilityService.DeleteAsync(id);
                 return RedirectToAction("Index");
             }
             catch (FacilityNotFoundException)

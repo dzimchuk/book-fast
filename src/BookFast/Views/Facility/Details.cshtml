@@ -1,35 +1,64 @@
-@model BookFast.ViewModels.FacilityViewModel
+@model BookFast.ViewModels.FacilityDetailsViewModel
 
 @{
-    ViewData["Title"] = "Details - " + Model.Name;
+    ViewData["Title"] = "Details - " + Model.Facility.Name;
 }
 
-<h2>@Model.Name</h2>
+<h2>@Model.Facility.Name</h2>
 
 <div>
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Facility.Name)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Facility.Name)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.Facility.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Facility.Description)
         </dd>
-        
+
         <dt>
-            @Html.DisplayNameFor(model => model.StreetAddress)
+            @Html.DisplayNameFor(model => model.Facility.StreetAddress)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.StreetAddress)
+            @Html.DisplayFor(model => model.Facility.StreetAddress)
         </dd>
     </dl>
 </div>
 <p>
-    <a class="btn btn-default" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    <a class="btn btn-default" asp-action="Edit" asp-route-id="@Model.Facility.Id">Edit</a>
     <a class="btn btn-default" asp-action="Index">Back to List</a>
 </p>
+<h3>Accommodations</h3>
+<p>
+    <a class="btn btn-primary" asp-controller="accommodation" asp-action="Create" asp-route-id="@Model.Facility.Id">Create New</a>
+</p>
+<div>
+    <table class="table">
+        <thead>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Rooms</th>
+            <th></th>
+        </thead>
+        <tbody>
+            @foreach (var accommodaiton in Model.Accommodations)
+            {
+                <tr>
+                    <td>@accommodaiton.Name</td>
+                    <td>@accommodaiton.Description</td>
+                    <td>@accommodaiton.RoomCount</td>
+                    <td>
+                        <a asp-controller="accommodation" asp-action="Edit" asp-route-id="@accommodaiton.Id">Edit</a> |
+                        <a asp-controller="accommodation" asp-action="Details" asp-route-id="@accommodaiton.Id">Details</a> |
+                        <a asp-controller="accommodation" asp-action="Delete" asp-route-id="@accommodaiton.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

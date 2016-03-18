@@ -31,8 +31,9 @@
     </dl>
 
     <form asp-action="Delete">
+        <input type="hidden" asp-for="FacilityId"/>
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" />
+            <input type="submit" value="Delete" class="btn btn-default"/>
             <a class="btn btn-primary" asp-controller="facility" asp-action="details" asp-route-id="@Model.FacilityId">Cancel</a>
         </div>
     </form>

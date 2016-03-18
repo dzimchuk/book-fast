@@ -9,7 +9,7 @@
 <form asp-action="Create">
     <div class="form-horizontal">
         <div asp-validation-summary="ValidationSummary.ModelOnly" class="text-muted"></div>
-        <input type="hidden" asp-for="FacilityId"/>
+        <input type="hidden" name="FacilityId" value="@ViewBag.FacilityId"/>
         <div class="form-group">
             <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -34,7 +34,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-primary" />
-                <a class="btn btn-default" asp-controller="facility" asp-action="details" asp-route-id="@Model.FacilityId">Cancel</a>
+                <a class="btn btn-default" asp-controller="facility" asp-action="details" asp-route-id="@ViewBag.FacilityId">Cancel</a>
             </div>
         </div>
     </div>
