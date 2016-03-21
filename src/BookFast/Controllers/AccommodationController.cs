@@ -8,7 +8,7 @@ using Microsoft.AspNet.Mvc;
 
 namespace BookFast.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "FacilityProviderOnly")]
     public class AccommodationController : Controller
     {
         private readonly IAccommodationService service;

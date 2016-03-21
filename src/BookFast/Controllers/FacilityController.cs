@@ -8,7 +8,7 @@ using Microsoft.AspNet.Authorization;
 
 namespace BookFast.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "FacilityProviderOnly")]
     public class FacilityController : Controller
     {
         private readonly IFacilityService facilityService;

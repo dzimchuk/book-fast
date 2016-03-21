@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BookFast.Common
+namespace BookFast.Common.Framework
 {
     public interface ICompositionModule
     {

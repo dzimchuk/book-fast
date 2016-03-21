@@ -6,6 +6,7 @@ using BookFast.Common;
 using BookFast.Data.Models;
 using Accommodation = BookFast.Business.Models.Accommodation;
 using System.Linq;
+using BookFast.Common.Framework;
 using Microsoft.Data.Entity;
 
 namespace BookFast.Data.Queries

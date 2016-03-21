@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace BookFast.Common
+namespace BookFast.Common.Framework
 {
     public interface IQuery<in TModel, TResult>
     {

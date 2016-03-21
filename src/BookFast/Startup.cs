@@ -1,4 +1,5 @@
 ﻿using BookFast.Common;
+using BookFast.Common.Framework;
 using BookFast.Infrastructure;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
@@ -67,6 +68,11 @@ namespace BookFast
             app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
+            app.UseFacebookAuthentication(options =>
+                                          {
+                                              options.AppId = Configuration["Authentication:Facebook:AppId"];
+                                              options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                                          });
 
             app.UseSecurityContext();
 

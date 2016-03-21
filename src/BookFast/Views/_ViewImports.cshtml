@@ -2,5 +2,7 @@
 @using BookFast.Models
 @using BookFast.ViewModels.Account
 @using BookFast.ViewModels.Manage
+@using Microsoft.AspNet.Authorization
 @using Microsoft.AspNet.Identity
 @addTagHelper "*, Microsoft.AspNet.Mvc.TagHelpers"
+@inject IAuthorizationService AuthorizationService

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using BookFast.Common;
+using BookFast.Common.Framework;
 using BookFast.Data.Models;
 using Microsoft.Data.Entity;
 using Facility = BookFast.Business.Models.Facility;

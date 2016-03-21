@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using BookFast.Common;
+using BookFast.Common.Framework;
 using BookFast.Data.Models;
 using Facility = BookFast.Business.Models.Facility;
 

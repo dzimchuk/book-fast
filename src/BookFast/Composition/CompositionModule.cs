@@ -1,5 +1,7 @@
 ﻿using BookFast.Business;
 using BookFast.Common;
+using BookFast.Common.Framework;
+using BookFast.Common.Security;
 using BookFast.Controllers;
 using BookFast.Infrastructure;
 using BookFast.Mappers;
@@ -28,15 +30,25 @@ namespace BookFast.Composition
 
             services.AddMvc();
 
-            // Add application services.
+            RegisterAuthorizationPolicies(services);
+            RegisterApplicationServices(services);
+            RegisterMappers(services);
+        }
+
+        private static void RegisterAuthorizationPolicies(IServiceCollection services)
+        {
+            services.AddAuthorization(
+                options => options.AddPolicy("FacilityProviderOnly", config => config.RequireClaim(BookFastClaimTypes.InteractorRole, InteractorRole.FacilityProvider.ToString())));
+        }
+
+        private static void RegisterApplicationServices(IServiceCollection services)
+        {
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
             var provider = new SecurityContextProvider();
             services.AddInstance<ISecurityContextAcceptor>(provider);
             services.AddInstance<ISecurityContext>(provider);
-
-            RegisterMappers(services);
         }
 
         private static void RegisterMappers(IServiceCollection services)

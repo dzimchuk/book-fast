@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BookFast.Business.Data;
 using BookFast.Common;
+using BookFast.Common.Framework;
 using BookFast.Data.Models;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
