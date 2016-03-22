@@ -1,4 +1,4 @@
-﻿using BookFast.Common.Framework;
+﻿using BookFast.Contracts.Framework;
 using BookFast.Infrastructure;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BookFast.Common;
-using BookFast.Common.Framework;
+using BookFast.Contracts.Framework;
 using BookFast.Data.Models;
 using Microsoft.Data.Entity;
 

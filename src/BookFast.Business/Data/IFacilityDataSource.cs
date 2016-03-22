@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BookFast.Business.Models;
+using BookFast.Contracts.Models;
 
 namespace BookFast.Business.Data
 {

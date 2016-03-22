@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BookFast.Common;
 using System.Linq;
 using AutoMapper;
-using BookFast.Common.Framework;
+using BookFast.Contracts.Framework;
 using BookFast.Data.Models;
 using Microsoft.Data.Entity;
-using Facility = BookFast.Business.Models.Facility;
+using Facility = BookFast.Contracts.Models.Facility;
 
 namespace BookFast.Data.Queries
 {

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BookFast.Business;
-using BookFast.Business.Exceptions;
+using BookFast.Contracts;
+using BookFast.Contracts.Exceptions;
 using BookFast.ViewModels;
 using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;

@@ -1,4 +1,4 @@
-﻿namespace BookFast.Business.Models
+﻿namespace BookFast.Contracts.Models
 {
     public class Location
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BookFast.Business.Models;
+using BookFast.Contracts.Models;
 
-namespace BookFast.Business
+namespace BookFast.Contracts
 {
     public interface IAccommodationService
     {

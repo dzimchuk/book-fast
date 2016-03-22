@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookFast.Business.Data;
-using BookFast.Business.Exceptions;
-using BookFast.Business.Models;
+using BookFast.Contracts;
+using BookFast.Contracts.Exceptions;
+using BookFast.Contracts.Models;
 
 namespace BookFast.Business.Services
 {

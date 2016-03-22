@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using BookFast.Contracts.Models;
 using BookFast.ViewModels;
 
 namespace BookFast.Controllers
 {
     public interface IFacilityMapper
     {
-        FacilityViewModel MapFrom(Business.Models.Facility facility);
-        IEnumerable<FacilityViewModel> MapFrom(IEnumerable<Business.Models.Facility> facilities);
-        Business.Models.FacilityDetails MapFrom(FacilityViewModel viewModel);
+        FacilityViewModel MapFrom(Facility facility);
+        IEnumerable<FacilityViewModel> MapFrom(IEnumerable<Facility> facilities);
+        FacilityDetails MapFrom(FacilityViewModel viewModel);
     }
 }

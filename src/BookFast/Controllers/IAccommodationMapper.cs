@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using BookFast.Business.Models;
+using BookFast.Contracts.Models;
 using BookFast.ViewModels;
 
 namespace BookFast.Controllers

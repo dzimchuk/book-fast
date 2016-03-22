@@ -1,10 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using BookFast.Common;
-using BookFast.Common.Framework;
+﻿using System.Threading.Tasks;
+using BookFast.Contracts.Framework;
 using BookFast.Data.Models;
 using Microsoft.Data.Entity;
-using Accommodation = BookFast.Business.Models.Accommodation;
+using Accommodation = BookFast.Contracts.Models.Accommodation;
 
 namespace BookFast.Data.Commands
 {

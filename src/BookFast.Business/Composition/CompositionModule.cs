@@ -1,6 +1,6 @@
 ﻿using BookFast.Business.Services;
-using BookFast.Common;
-using BookFast.Common.Framework;
+using BookFast.Contracts;
+using BookFast.Contracts.Framework;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

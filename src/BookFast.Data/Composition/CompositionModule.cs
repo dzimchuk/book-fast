@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using BookFast.Business.Data;
-using BookFast.Common;
-using BookFast.Common.Framework;
+using BookFast.Contracts.Framework;
+using BookFast.Contracts.Models;
 using BookFast.Data.Models;
 using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Accommodation = BookFast.Data.Models.Accommodation;
+using Facility = BookFast.Data.Models.Facility;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace BookFast.Data.Composition
@@ -27,7 +29,7 @@ namespace BookFast.Data.Composition
         {
             var mapperConfiguration = new MapperConfiguration(config =>
                                                               {
-                                                                  config.CreateMap<Business.Models.Facility, Facility>()
+                                                                  config.CreateMap<Contracts.Models.Facility, Facility>()
                                                                         .ForMember(dm => dm.Name, c => c.MapFrom(m => m.Details.Name))
                                                                         .ForMember(dm => dm.Description, c => c.MapFrom(m => m.Details.Description))
                                                                         .ForMember(dm => dm.StreetAddress, c => c.MapFrom(m => m.Details.StreetAddress))
@@ -35,17 +37,17 @@ namespace BookFast.Data.Composition
                                                                         .ForMember(dm => dm.Longitude, c => c.MapFrom(m => m.Location.Longitude))
                                                                         .ForMember(dm => dm.Accommodations, c => c.Ignore())
                                                                         .ReverseMap()
-                                                                        .ConvertUsing(dm => new Business.Models.Facility
+                                                                        .ConvertUsing(dm => new Contracts.Models.Facility
                                                                                             {
                                                                                                 Id = dm.Id,
                                                                                                 Owner = dm.Owner,
-                                                                                                Details = new Business.Models.FacilityDetails
+                                                                                                Details = new FacilityDetails
                                                                                                           {
                                                                                                               Name = dm.Name,
                                                                                                               Description = dm.Description,
                                                                                                               StreetAddress = dm.StreetAddress
                                                                                                           },
-                                                                                                Location = new Business.Models.Location
+                                                                                                Location = new Location
                                                                                                            {
                                                                                                                Latitude = dm.Latitude,
                                                                                                                Longitude = dm.Longitude
@@ -53,17 +55,17 @@ namespace BookFast.Data.Composition
                                                                                                 AccommodationCount = dm.AccommodationCount
                                                                                             });
 
-                                                                  config.CreateMap<Business.Models.Accommodation, Accommodation>()
+                                                                  config.CreateMap<Contracts.Models.Accommodation, Accommodation>()
                                                                         .ForMember(dm => dm.Name, c => c.MapFrom(m => m.Details.Name))
                                                                         .ForMember(dm => dm.Description, c => c.MapFrom(m => m.Details.Description))
                                                                         .ForMember(dm => dm.RoomCount, c => c.MapFrom(m => m.Details.RoomCount))
                                                                         .ForMember(dm => dm.Facility, c => c.Ignore())
                                                                         .ReverseMap()
-                                                                        .ConvertUsing(dm => new Business.Models.Accommodation
+                                                                        .ConvertUsing(dm => new Contracts.Models.Accommodation
                                                                                             {
                                                                                                 Id = dm.Id,
                                                                                                 FacilityId = dm.FacilityId,
-                                                                                                Details = new Business.Models.AccommodationDetails
+                                                                                                Details = new AccommodationDetails
                                                                                                           {
                                                                                                               Name = dm.Name,
                                                                                                               Description = dm.Description,

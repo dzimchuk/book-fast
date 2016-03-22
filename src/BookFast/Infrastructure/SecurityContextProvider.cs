@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using BookFast.Business;
-using BookFast.Common.Security;
+using BookFast.Contracts.Security;
 
 namespace BookFast.Infrastructure
 {

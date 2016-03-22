@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using BookFast.Business.Models;
 using BookFast.Controllers;
 using BookFast.ViewModels;
 using System.Linq;
+using BookFast.Contracts.Models;
 
 namespace BookFast.Mappers
 {

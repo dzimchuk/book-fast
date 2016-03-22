@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
-using BookFast.Common;
-using BookFast.Common.Framework;
+using BookFast.Contracts.Framework;
 using BookFast.Data.Models;
-using Facility = BookFast.Business.Models.Facility;
+using Facility = BookFast.Contracts.Models.Facility;
 
 namespace BookFast.Data.Commands
 {

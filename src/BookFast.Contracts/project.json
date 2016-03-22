@@ -1,6 +1,6 @@
 ﻿{
   "version": "1.0.0-*",
-  "description": "BookFast.Common Class Library",
+  "description": "BookFast.Contracts Class Library",
   "authors": [ "Andrei Dzimchuk" ],
   "tags": [ "" ],
   "projectUrl": "",

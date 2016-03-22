@@ -1,7 +1,6 @@
 ﻿using BookFast.Business;
-using BookFast.Common;
-using BookFast.Common.Framework;
-using BookFast.Common.Security;
+using BookFast.Contracts.Framework;
+using BookFast.Contracts.Security;
 using BookFast.Controllers;
 using BookFast.Infrastructure;
 using BookFast.Mappers;

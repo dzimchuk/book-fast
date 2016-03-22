@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BookFast.Business.Exceptions
+namespace BookFast.Contracts.Exceptions
 {
     public class AccommodationNotFoundException : Exception
     {

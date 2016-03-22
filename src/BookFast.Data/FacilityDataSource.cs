@@ -6,7 +6,7 @@ using BookFast.Business.Data;
 using BookFast.Data.Commands;
 using BookFast.Data.Models;
 using BookFast.Data.Queries;
-using Facility = BookFast.Business.Models.Facility;
+using Facility = BookFast.Contracts.Models.Facility;
 
 namespace BookFast.Data
 {

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using BookFast.Common;
 using BookFast.Data.Models;
-using Accommodation = BookFast.Business.Models.Accommodation;
+using Accommodation = BookFast.Contracts.Models.Accommodation;
 using System.Linq;
-using BookFast.Common.Framework;
+using BookFast.Contracts.Framework;
 using Microsoft.Data.Entity;
 
 namespace BookFast.Data.Queries

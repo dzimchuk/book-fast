@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BookFast.Business.Models;
 using BookFast.ViewModels;
 using System.Linq;
+using BookFast.Contracts.Models;
 using BookFast.Controllers;
 
 namespace BookFast.Mappers
