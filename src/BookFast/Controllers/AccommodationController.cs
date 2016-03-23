@@ -73,6 +73,10 @@ namespace BookFast.Controllers
                 {
                     return HttpNotFound();
                 }
+                catch (FacilityNotFoundException)
+                {
+                    return HttpNotFound();
+                }
             }
 
             return View(accommodationViewModel);

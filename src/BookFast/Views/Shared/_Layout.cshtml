@@ -36,6 +36,7 @@
                             <li><a asp-controller="Facility" asp-action="Index">Facilities</a></li>
                         }
                     </ul>
+                    @await Html.PartialAsync("_SearchPartial")
                     @await Html.PartialAsync("_LoginPartial")
                 </div>
             </div>

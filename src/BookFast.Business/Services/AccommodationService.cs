@@ -12,11 +12,13 @@ namespace BookFast.Business.Services
     {
         private readonly IAccommodationDataSource accommodationDataSource;
         private readonly IFacilityDataSource facilityDataSource;
+        private readonly ISearchIndexer searchIndexer;
 
-        public AccommodationService(IAccommodationDataSource accommodationDataSource, IFacilityDataSource facilityDataSource)
+        public AccommodationService(IAccommodationDataSource accommodationDataSource, IFacilityDataSource facilityDataSource, ISearchIndexer searchIndexer)
         {
             this.accommodationDataSource = accommodationDataSource;
             this.facilityDataSource = facilityDataSource;
+            this.searchIndexer = searchIndexer;
         }
 
         public async Task<List<Accommodation>> ListAsync(Guid facilityId)
@@ -53,6 +55,8 @@ namespace BookFast.Business.Services
 
             facility.AccommodationCount++;
             await facilityDataSource.UpdateAsync(facility);
+
+            await searchIndexer.IndexAccommodationAsync(accommodation, facility);
         }
 
         public async Task UpdateAsync(Guid accommodationId, AccommodationDetails details)
@@ -61,8 +65,14 @@ namespace BookFast.Business.Services
             if (accommodation == null)
                 throw new AccommodationNotFoundException(accommodationId);
 
+            var facility = await facilityDataSource.FindAsync(accommodation.FacilityId);
+            if (facility == null)
+                throw new FacilityNotFoundException(accommodation.FacilityId);
+
             accommodation.Details = details;
             await accommodationDataSource.UpdateAsync(accommodation);
+
+            await searchIndexer.IndexAccommodationAsync(accommodation, facility);
         }
 
         public async Task DeleteAsync(Guid accommodationId)
@@ -77,6 +87,8 @@ namespace BookFast.Business.Services
 
             facility.AccommodationCount--;
             await facilityDataSource.UpdateAsync(facility);
+
+            await searchIndexer.DeleteAccommodationIndexAsync(accommodationId);
         }
     }
 }

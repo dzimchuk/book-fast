@@ -1,4 +1,5 @@
-﻿using BookFast.Contracts.Framework;
+﻿using System.Collections.Generic;
+using BookFast.Contracts.Framework;
 using BookFast.Infrastructure;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
@@ -31,12 +32,16 @@ namespace BookFast
         
         public void ConfigureServices(IServiceCollection services)
         {
-            var modules = new ICompositionModule[]
+            var modules = new List<ICompositionModule>
                           {
                               new Composition.CompositionModule(),
                               new Business.Composition.CompositionModule(),
                               new Data.Composition.CompositionModule()
                           };
+
+#if DNX451
+            modules.Add(new Search.Composition.CompositionModule());
+#endif
 
             foreach (var module in modules)
             {

@@ -12,9 +12,11 @@
   },
 
   "dependencies": {
+    "BookFast.Business": "1.0.0-*",
     "Microsoft.Azure.Search": "1.1.1",
     "Microsoft.Extensions.Configuration": "1.0.0-rc1-final",
-    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0-rc1-final"
+    "Microsoft.Extensions.Configuration.UserSecrets": "1.0.0-rc1-final",
+    "AutoMapper": "4.2.1"
   },
 
   "commands": {

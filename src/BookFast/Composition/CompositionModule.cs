@@ -32,6 +32,8 @@ namespace BookFast.Composition
             RegisterAuthorizationPolicies(services);
             RegisterApplicationServices(services);
             RegisterMappers(services);
+
+            services.AddInstance(configuration);
         }
 
         private static void RegisterAuthorizationPolicies(IServiceCollection services)
