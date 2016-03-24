@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BookFast.Business;
 using BookFast.Contracts;
 using BookFast.Contracts.Exceptions;
 using BookFast.ViewModels;
@@ -21,6 +20,7 @@ namespace BookFast.Controllers
             this.mapper = mapper;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)

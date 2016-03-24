@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details - " + Model.Facility.Name;
+    var isFacilityProvider = await AuthorizationService.AuthorizeAsync(User, "FacilityProviderOnly");
 }
 
 <h2>@Model.Facility.Name</h2>
@@ -29,14 +30,23 @@
         </dd>
     </dl>
 </div>
-<p>
-    <a class="btn btn-default" asp-action="Edit" asp-route-id="@Model.Facility.Id">Edit</a>
-    <a class="btn btn-default" asp-action="Index">Back to List</a>
-</p>
+@if (isFacilityProvider)
+{
+    <p>
+        <a class="btn btn-default" asp-action="Edit" asp-route-id="@Model.Facility.Id">Edit Facility</a>
+        <a class="btn btn-default" asp-action="Index">Facililty List</a>
+    </p>
+}
+
 <h3>Accommodations</h3>
-<p>
-    <a class="btn btn-primary" asp-controller="accommodation" asp-action="Create" asp-route-id="@Model.Facility.Id">Create New</a>
-</p>
+
+@if (isFacilityProvider)
+{
+    <p>
+        <a class="btn btn-primary" asp-controller="accommodation" asp-action="Create" asp-route-id="@Model.Facility.Id">Add Accommodation</a>
+    </p>
+}
+
 <div>
     <table class="table">
         <thead>
@@ -53,9 +63,14 @@
                     <td>@accommodaiton.Description</td>
                     <td>@accommodaiton.RoomCount</td>
                     <td>
-                        <a asp-controller="accommodation" asp-action="Edit" asp-route-id="@accommodaiton.Id">Edit</a> |
-                        <a asp-controller="accommodation" asp-action="Details" asp-route-id="@accommodaiton.Id">Details</a> |
-                        <a asp-controller="accommodation" asp-action="Delete" asp-route-id="@accommodaiton.Id">Delete</a>
+                        <a asp-controller="accommodation" asp-action="Details" asp-route-id="@accommodaiton.Id">Details</a>
+                        @if (isFacilityProvider)
+                        {
+                            @: |
+                            <a asp-controller="accommodation" asp-action="Edit" asp-route-id="@accommodaiton.Id">Edit</a> 
+                            @: |
+                            <a asp-controller="accommodation" asp-action="Delete" asp-route-id="@accommodaiton.Id">Delete</a>
+                        }
                     </td>
                 </tr>
             }

@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using BookFast.Business;
 using BookFast.Contracts;
 using BookFast.Contracts.Exceptions;
 using Microsoft.AspNet.Mvc;
@@ -32,7 +31,8 @@ namespace BookFast.Controllers
             var facilities = await facilityService.ListAsync();
             return View(facilityMapper.MapFrom(facilities));
         }
-
+        
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)

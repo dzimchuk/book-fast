@@ -19,7 +19,7 @@ namespace BookFast.Mappers
                                                                                .ForMember(vm => vm.Description, config => config.MapFrom(m => m.Details.Description))
                                                                                .ForMember(vm => vm.RoomCount, config => config.MapFrom(m => m.Details.RoomCount));
 
-                                                                  configuration.CreateMap<AccommodationDetails, AccommodationViewModel>();
+                                                                  configuration.CreateMap<AccommodationViewModel, AccommodationDetails>();
                                                               });
             mapperConfiguration.AssertConfigurationIsValid();
 
