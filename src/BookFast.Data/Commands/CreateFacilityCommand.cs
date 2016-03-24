@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using AutoMapper;
 using BookFast.Contracts.Framework;
 using BookFast.Data.Models;
 using Facility = BookFast.Contracts.Models.Facility;
@@ -9,9 +8,9 @@ namespace BookFast.Data.Commands
     internal class CreateFacilityCommand : ICommand<BookFastContext>
     {
         private readonly Facility facility;
-        private readonly IMapper mapper;
+        private readonly IFacilityMapper mapper;
 
-        public CreateFacilityCommand(Facility facility, IMapper mapper)
+        public CreateFacilityCommand(Facility facility, IFacilityMapper mapper)
         {
             this.facility = facility;
             this.mapper = mapper;
@@ -19,7 +18,7 @@ namespace BookFast.Data.Commands
 
         public Task ApplyAsync(BookFastContext model)
         {
-            model.Facilities.Add(mapper.Map<Models.Facility>(facility));
+            model.Facilities.Add(mapper.MapFrom(facility));
             return model.SaveChangesAsync();
         }
     }

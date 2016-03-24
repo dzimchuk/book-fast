@@ -1,40 +1,46 @@
 ﻿using System.Collections.Generic;
 using BookFast.Controllers;
 using BookFast.ViewModels;
-using System.Linq;
+using AutoMapper;
 using BookFast.Contracts.Models;
 
 namespace BookFast.Mappers
 {
     internal class FacilityMapper : IFacilityMapper
     {
+        private static readonly IMapper Mapper;
+
+        static FacilityMapper()
+        {
+            var mapperConfiguration = new MapperConfiguration(configuration =>
+                                                              {
+                                                                  configuration.CreateMap<Facility, FacilityViewModel>()
+                                                                               .ForMember(vm => vm.Name, config => config.MapFrom(m => m.Details.Name))
+                                                                               .ForMember(vm => vm.Description, config => config.MapFrom(m => m.Details.Description))
+                                                                               .ForMember(vm => vm.StreetAddress, config => config.MapFrom(m => m.Details.StreetAddress))
+                                                                               .ForMember(vm => vm.Latitude, config => config.MapFrom(m => m.Location.Latitude))
+                                                                               .ForMember(vm => vm.Longitude, config => config.MapFrom(m => m.Location.Longitude));
+
+                                                                  configuration.CreateMap<FacilityViewModel, FacilityDetails>();
+                                                              });
+            mapperConfiguration.AssertConfigurationIsValid();
+
+            Mapper = mapperConfiguration.CreateMapper();
+        }
+
         public FacilityViewModel MapFrom(Facility facility)
         {
-            return new FacilityViewModel
-                   {
-                       Id = facility.Id,
-                       Name = facility.Details.Name,
-                       Description = facility.Details.Description,
-                       StreetAddress = facility.Details.StreetAddress,
-                       Latitude = facility.Location.Latitude,
-                       Longitude = facility.Location.Longitude,
-                       AccommodationCount = facility.AccommodationCount
-                   };
+            return Mapper.Map<FacilityViewModel>(facility);
         }
 
         public IEnumerable<FacilityViewModel> MapFrom(IEnumerable<Facility> facilities)
         {
-            return facilities.Select(MapFrom).ToList();
+            return Mapper.Map<IEnumerable<FacilityViewModel>>(facilities);
         }
 
         public FacilityDetails MapFrom(FacilityViewModel viewModel)
         {
-            return new FacilityDetails
-                   {
-                       Name = viewModel.Name,
-                       Description = viewModel.Description,
-                       StreetAddress = viewModel.StreetAddress
-                   };
+            return Mapper.Map<FacilityDetails>(viewModel);
         }
     }
 }

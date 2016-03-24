@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using BookFast.Business.Data;
 using BookFast.Data.Commands;
 using BookFast.Data.Models;
@@ -13,9 +12,9 @@ namespace BookFast.Data
     internal class AccommodationDataSource : IAccommodationDataSource
     {
         private readonly BookFastContext context;
-        private readonly IMapper mapper;
+        private readonly IAccommodationMapper mapper;
 
-        public AccommodationDataSource(BookFastContext context, IMapper mapper)
+        public AccommodationDataSource(BookFastContext context, IAccommodationMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;

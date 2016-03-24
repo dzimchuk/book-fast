@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using AutoMapper;
 using BookFast.Contracts.Framework;
 using BookFast.Data.Models;
 using Microsoft.Data.Entity;
@@ -13,9 +12,9 @@ namespace BookFast.Data.Queries
     internal class ListFacilitiesByOwnerQuery : IQuery<BookFastContext, List<Facility>>
     {
         private readonly string owner;
-        private readonly IMapper mapper;
+        private readonly IFacilityMapper mapper;
 
-        public ListFacilitiesByOwnerQuery(string owner, IMapper mapper)
+        public ListFacilitiesByOwnerQuery(string owner, IFacilityMapper mapper)
         {
             this.owner = owner;
             this.mapper = mapper;
@@ -27,7 +26,7 @@ namespace BookFast.Data.Queries
                                     where f.Owner.Equals(owner, StringComparison.OrdinalIgnoreCase)
                                     select f).ToListAsync();
 
-            return mapper.Map<List<Facility>>(facilities);
+            return mapper.MapFrom(facilities).ToList();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using BookFast.Contracts.Framework;
 using BookFast.Data.Models;
 using Microsoft.Data.Entity;
@@ -11,9 +10,9 @@ namespace BookFast.Data.Queries
     internal class FindFacilityQuery : IQuery<BookFastContext, Facility>
     {
         private readonly Guid facilityId;
-        private readonly IMapper mapper;
+        private readonly IFacilityMapper mapper;
 
-        public FindFacilityQuery(Guid facilityId, IMapper mapper)
+        public FindFacilityQuery(Guid facilityId, IFacilityMapper mapper)
         {
             this.facilityId = facilityId;
             this.mapper = mapper;
@@ -22,7 +21,7 @@ namespace BookFast.Data.Queries
         public async Task<Facility> ExecuteAsync(BookFastContext model)
         {
             var facility = await model.Facilities.FirstOrDefaultAsync(f => f.Id == facilityId);
-            return facility != null ? mapper.Map<Facility>(facility) : null;
+            return facility != null ? mapper.MapFrom(facility) : null;
         }
     }
 }
