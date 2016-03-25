@@ -13,6 +13,7 @@ namespace BookFast.Business.Composition
             services.AddScoped<IFacilityService, FacilityService>();
             services.AddScoped<IAccommodationService, AccommodationService>();
             services.AddScoped<ISearchService, SearchService>();
+            services.AddScoped<IBookingService, BookingService>();
         }
     }
 }

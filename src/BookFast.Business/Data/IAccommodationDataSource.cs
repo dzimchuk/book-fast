@@ -12,5 +12,6 @@ namespace BookFast.Business.Data
         Task CreateAsync(Accommodation accommodation);
         Task UpdateAsync(Accommodation accommodation);
         Task DeleteAsync(Guid accommodationId);
+        Task<bool> ExistsAsync(Guid accommodationId);
     }
 }

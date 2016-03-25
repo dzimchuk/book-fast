@@ -17,6 +17,7 @@ namespace BookFast.Data.Mappers
                                                                         .ForMember(dm => dm.Description, c => c.MapFrom(m => m.Details.Description))
                                                                         .ForMember(dm => dm.RoomCount, c => c.MapFrom(m => m.Details.RoomCount))
                                                                         .ForMember(dm => dm.Facility, c => c.Ignore())
+                                                                        .ForMember(dm => dm.Bookings, c => c.Ignore())
                                                                         .ReverseMap()
                                                                         .ConvertUsing(dm => new Accommodation
                                                                                             {

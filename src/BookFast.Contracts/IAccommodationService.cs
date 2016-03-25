@@ -12,5 +12,6 @@ namespace BookFast.Contracts
         Task CreateAsync(Guid facilityId, AccommodationDetails details);
         Task UpdateAsync(Guid accommodationId, AccommodationDetails details);
         Task DeleteAsync(Guid accommodationId);
+        Task CheckAccommodationAsync(Guid accommodationId);
     }
 }

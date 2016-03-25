@@ -90,5 +90,11 @@ namespace BookFast.Business.Services
 
             await searchIndexer.DeleteAccommodationIndexAsync(accommodationId);
         }
+
+        public async Task CheckAccommodationAsync(Guid accommodationId)
+        {
+            if (!await accommodationDataSource.ExistsAsync(accommodationId))
+                throw new AccommodationNotFoundException(accommodationId);
+        }
     }
 }

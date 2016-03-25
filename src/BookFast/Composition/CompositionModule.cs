@@ -56,6 +56,7 @@ namespace BookFast.Composition
         {
             services.AddScoped<IFacilityMapper, FacilityMapper>();
             services.AddScoped<IAccommodationMapper, AccommodationMapper>();
+            services.AddScoped<IBookingMapper, BookingMapper>();
         }
     }
 }

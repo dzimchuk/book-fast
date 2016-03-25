@@ -49,5 +49,11 @@ namespace BookFast.Data
             var command = new DeleteAccommodationCommand(accommodationId);
             return command.ApplyAsync(context);
         }
+
+        public Task<bool> ExistsAsync(Guid accommodationId)
+        {
+            var query = new DoesAccommodationExistQuery(accommodationId);
+            return query.ExecuteAsync(context);
+        }
     }
 }

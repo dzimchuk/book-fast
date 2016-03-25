@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BookFast.Data.Models
 {
@@ -10,5 +11,6 @@ namespace BookFast.Data.Models
         public Guid FacilityId { get; set; }
         public int RoomCount { get; set; }
         public Facility Facility { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
     }
 }
