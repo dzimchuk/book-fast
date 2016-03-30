@@ -11,21 +11,19 @@ namespace BookFast.Business.Services
     internal class AccommodationService : IAccommodationService
     {
         private readonly IAccommodationDataSource accommodationDataSource;
-        private readonly IFacilityDataSource facilityDataSource;
+        private readonly IFacilityService facilityService;
         private readonly ISearchIndexer searchIndexer;
 
-        public AccommodationService(IAccommodationDataSource accommodationDataSource, IFacilityDataSource facilityDataSource, ISearchIndexer searchIndexer)
+        public AccommodationService(IAccommodationDataSource accommodationDataSource, IFacilityService facilityService, ISearchIndexer searchIndexer)
         {
             this.accommodationDataSource = accommodationDataSource;
-            this.facilityDataSource = facilityDataSource;
+            this.facilityService = facilityService;
             this.searchIndexer = searchIndexer;
         }
 
         public async Task<List<Accommodation>> ListAsync(Guid facilityId)
         {
-            if (!await facilityDataSource.ExistsAsync(facilityId))
-                throw new FacilityNotFoundException(facilityId);
-
+            await facilityService.CheckFacilityAsync(facilityId);
             return await accommodationDataSource.ListAsync(facilityId);
         }
 
@@ -40,9 +38,7 @@ namespace BookFast.Business.Services
 
         public async Task CreateAsync(Guid facilityId, AccommodationDetails details)
         {
-            var facility = await facilityDataSource.FindAsync(facilityId);
-            if (facility == null)
-                throw new FacilityNotFoundException(facilityId);
+            await facilityService.CheckFacilityAsync(facilityId);
 
             var accommodation = new Accommodation
                                 {
@@ -52,10 +48,9 @@ namespace BookFast.Business.Services
                                 };
 
             await accommodationDataSource.CreateAsync(accommodation);
+            await facilityService.IncrementAccommodationCountAsync(facilityId);
 
-            facility.AccommodationCount++;
-            await facilityDataSource.UpdateAsync(facility);
-
+            var facility = await facilityService.FindAsync(facilityId);
             await searchIndexer.IndexAccommodationAsync(accommodation, facility);
         }
 
@@ -65,7 +60,7 @@ namespace BookFast.Business.Services
             if (accommodation == null)
                 throw new AccommodationNotFoundException(accommodationId);
 
-            var facility = await facilityDataSource.FindAsync(accommodation.FacilityId);
+            var facility = await facilityService.FindAsync(accommodation.FacilityId);
             if (facility == null)
                 throw new FacilityNotFoundException(accommodation.FacilityId);
 
@@ -80,13 +75,9 @@ namespace BookFast.Business.Services
             var accommodation = await accommodationDataSource.FindAsync(accommodationId);
             if (accommodation == null)
                 throw new AccommodationNotFoundException(accommodationId);
-
-            var facility = await facilityDataSource.FindAsync(accommodation.FacilityId);
-
+            
             await accommodationDataSource.DeleteAsync(accommodationId);
-
-            facility.AccommodationCount--;
-            await facilityDataSource.UpdateAsync(facility);
+            await facilityService.DecrementAccommodationCountAsync(accommodation.FacilityId);
 
             await searchIndexer.DeleteAccommodationIndexAsync(accommodationId);
         }

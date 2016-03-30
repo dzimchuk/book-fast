@@ -63,5 +63,27 @@ namespace BookFast.Business.Services
 
             await dataSource.DeleteAsync(facilityId);
         }
+
+        public async Task CheckFacilityAsync(Guid facilityId)
+        {
+            if (!await dataSource.ExistsAsync(facilityId))
+                throw new FacilityNotFoundException(facilityId);
+        }
+
+        public async Task IncrementAccommodationCountAsync(Guid facilityId)
+        {
+            var facility = await FindAsync(facilityId);
+
+            facility.AccommodationCount++;
+            await dataSource.UpdateAsync(facility);
+        }
+
+        public async Task DecrementAccommodationCountAsync(Guid facilityId)
+        {
+            var facility = await FindAsync(facilityId);
+
+            facility.AccommodationCount--;
+            await dataSource.UpdateAsync(facility);
+        }
     }
 }
