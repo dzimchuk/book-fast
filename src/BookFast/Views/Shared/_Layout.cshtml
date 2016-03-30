@@ -37,6 +37,10 @@
                         {
                             <li><a asp-controller="Facility" asp-action="Index">Facilities</a></li>
                         }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a asp-controller="Booking" asp-action="Index">My bookings</a></li>
+                        }
                     </ul>
                     @await Html.PartialAsync("_SearchPartial")
                     @await Html.PartialAsync("_LoginPartial")

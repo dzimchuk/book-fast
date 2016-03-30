@@ -22,6 +22,12 @@ namespace BookFast.Controllers
             this.accommodationService = accommodationService;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var bookings = await bookingService.ListAsync();
+            return View(mapper.MapFrom(bookings));
+        }
+
         public async Task<IActionResult> Create(Guid id)
         {
             try
@@ -48,7 +54,7 @@ namespace BookFast.Controllers
                 {
                     var details = mapper.MapFrom(booking);
                     await bookingService.BookAsync(booking.AccommodationId, details);
-                    return RedirectToAction("index", "home");
+                    return RedirectToAction("Index");
                 }
 
                 var accommodation = await accommodationService.FindAsync(booking.AccommodationId);

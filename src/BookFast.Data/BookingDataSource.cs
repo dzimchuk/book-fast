@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using BookFast.Business.Data;
 using BookFast.Data.Commands;
 using BookFast.Data.Models;
+using BookFast.Data.Queries;
 using Booking = BookFast.Contracts.Models.Booking;
 
 namespace BookFast.Data
@@ -21,6 +23,12 @@ namespace BookFast.Data
         {
             var command = new CreateBookingCommand(booking, mapper);
             return command.ApplyAsync(context);
+        }
+
+        public Task<List<Booking>> ListAsync(string user)
+        {
+            var query = new ListBookingsByUserQuery(user);
+            return query.ExecuteAsync(context);
         }
     }
 }

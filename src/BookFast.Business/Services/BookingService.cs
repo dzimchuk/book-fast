@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookFast.Business.Data;
 using BookFast.Contracts;
@@ -32,6 +33,11 @@ namespace BookFast.Business.Services
                           };
 
             await dataSource.CreateAsync(booking);
+        }
+
+        public Task<List<Booking>> ListAsync()
+        {
+            return dataSource.ListAsync(securityContext.GetCurrentUser());
         }
     }
 }

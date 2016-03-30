@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using BookFast.Contracts.Models;
 using BookFast.Controllers;
 using BookFast.ViewModels;
@@ -14,6 +15,9 @@ namespace BookFast.Mappers
             var mapperConfiguration = new MapperConfiguration(configuration =>
                                                               {
                                                                   configuration.CreateMap<CreateBookingViewModel, BookingDetails>();
+                                                                  configuration.CreateMap<Booking, BookingViewModel>()
+                                                                               .ForMember(vm => vm.FromDate, config => config.MapFrom(m => m.Details.FromDate))
+                                                                               .ForMember(vm => vm.ToDate, config => config.MapFrom(m => m.Details.ToDate));
                                                               });
             mapperConfiguration.AssertConfigurationIsValid();
 
@@ -24,5 +28,10 @@ namespace BookFast.Mappers
         {
             return Mapper.Map<BookingDetails>(viewModel);
         }
+
+        public IEnumerable<BookingViewModel> MapFrom(IEnumerable<Booking> bookings)
+        {
+            return Mapper.Map<IEnumerable<BookingViewModel>>(bookings);
+        } 
     }
 }

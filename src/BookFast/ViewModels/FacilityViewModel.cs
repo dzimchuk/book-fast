@@ -16,6 +16,7 @@ namespace BookFast.ViewModels
 
         [Required]
         [StringLength(100)]
+        [Display(Name = "Street address")]
         public string StreetAddress { get; set; }
 
         public double? Longitude { get; set; }

@@ -16,6 +16,7 @@ namespace BookFast.ViewModels
         public string Description { get; set; }
 
         [Range(0, 20)]
+        [Display(Name = "Number of rooms")]
         public int RoomCount { get; set; }
     }
 }
