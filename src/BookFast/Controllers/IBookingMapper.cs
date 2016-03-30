@@ -8,5 +8,6 @@ namespace BookFast.Controllers
     {
         BookingDetails MapFrom(CreateBookingViewModel viewModel);
         IEnumerable<BookingViewModel> MapFrom(IEnumerable<Booking> bookings);
+        BookingViewModel MapFrom(Booking booking);
     }
 }

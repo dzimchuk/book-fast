@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookFast.Business.Data;
 using BookFast.Data.Commands;
@@ -25,10 +26,22 @@ namespace BookFast.Data
             return command.ApplyAsync(context);
         }
 
-        public Task<List<Booking>> ListAsync(string user)
+        public Task<List<Booking>> ListPendingAsync(string user)
         {
-            var query = new ListBookingsByUserQuery(user);
+            var query = new ListPendingBookingsByUserQuery(user);
             return query.ExecuteAsync(context);
+        }
+
+        public Task<Booking> FindAsync(Guid id)
+        {
+            var query = new FindBookingQuery(id);
+            return query.ExecuteAsync(context);
+        }
+
+        public Task UpdateAsync(Booking booking)
+        {
+            var command = new UpdateBookingCommand(booking);
+            return command.ApplyAsync(context);
         }
     }
 }

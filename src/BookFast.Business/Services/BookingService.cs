@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BookFast.Business.Data;
 using BookFast.Contracts;
+using BookFast.Contracts.Exceptions;
 using BookFast.Contracts.Models;
 
 namespace BookFast.Business.Services
@@ -35,9 +36,31 @@ namespace BookFast.Business.Services
             await dataSource.CreateAsync(booking);
         }
 
-        public Task<List<Booking>> ListAsync()
+        public Task<List<Booking>> ListPendingAsync()
         {
-            return dataSource.ListAsync(securityContext.GetCurrentUser());
+            return dataSource.ListPendingAsync(securityContext.GetCurrentUser());
+        }
+
+        public async Task CancelAsync(Guid id)
+        {
+            var booking = await dataSource.FindAsync(id);
+            if (booking == null)
+                throw new BookingNotFoundException(id);
+
+            if (!securityContext.GetCurrentUser().Equals(booking.User, StringComparison.OrdinalIgnoreCase))
+                throw new UserMismatchException(id);
+
+            booking.CanceledOn = DateTimeOffset.Now;
+            await dataSource.UpdateAsync(booking);
+        }
+
+        public async Task<Booking> FindAsync(Guid id)
+        {
+            var booking = await dataSource.FindAsync(id);
+            if (booking == null)
+                throw new BookingNotFoundException(id);
+
+            return booking;
         }
     }
 }

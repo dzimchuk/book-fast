@@ -24,7 +24,7 @@ namespace BookFast.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var bookings = await bookingService.ListAsync();
+            var bookings = await bookingService.ListPendingAsync();
             return View(mapper.MapFrom(bookings));
         }
 
@@ -65,6 +65,39 @@ namespace BookFast.Controllers
             catch (AccommodationNotFoundException)
             {
                 return HttpNotFound();
+            }
+        }
+
+        public async Task<IActionResult> Cancel(Guid id)
+        {
+            try
+            {
+                var booking = await bookingService.FindAsync(id);
+                return View(mapper.MapFrom(booking));
+            }
+            catch (BookingNotFoundException)
+            {
+                return HttpNotFound();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Cancel")]
+        public async Task<IActionResult> CancelConfirmed(Guid id)
+        {
+            try
+            {
+                await bookingService.CancelAsync(id);
+                return RedirectToAction("Index");
+            }
+            catch (BookingNotFoundException)
+            {
+                return HttpNotFound();
+            }
+            catch (UserMismatchException)
+            {
+                return HttpBadRequest();
             }
         }
     }

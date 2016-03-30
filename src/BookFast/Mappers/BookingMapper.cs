@@ -32,6 +32,11 @@ namespace BookFast.Mappers
         public IEnumerable<BookingViewModel> MapFrom(IEnumerable<Booking> bookings)
         {
             return Mapper.Map<IEnumerable<BookingViewModel>>(bookings);
-        } 
+        }
+
+        public BookingViewModel MapFrom(Booking booking)
+        {
+            return Mapper.Map<BookingViewModel>(booking);
+        }
     }
 }

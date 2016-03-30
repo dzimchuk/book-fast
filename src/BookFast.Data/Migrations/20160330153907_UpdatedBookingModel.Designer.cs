@@ -8,9 +8,10 @@ using BookFast.Data.Models;
 namespace BookFast.Data.Migrations
 {
     [DbContext(typeof(BookFastContext))]
-    partial class BookFastContextModelSnapshot : ModelSnapshot
+    [Migration("20160330153907_UpdatedBookingModel")]
+    partial class UpdatedBookingModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")

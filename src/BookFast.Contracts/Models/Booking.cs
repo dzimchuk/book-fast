@@ -11,6 +11,8 @@ namespace BookFast.Contracts.Models
         public Guid FacilityId { get; set; }
         public string FacilityName { get; set; }
         public string StreetAddress { get; set; }
-        public BookingDetails Details { get; set; } 
+        public BookingDetails Details { get; set; }
+        public DateTimeOffset? CanceledOn { get; set; }
+        public DateTimeOffset? CheckedInOn { get; set; }
     }
 }

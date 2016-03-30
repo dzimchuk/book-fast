@@ -8,6 +8,8 @@ namespace BookFast.Contracts
     public interface IBookingService
     {
         Task BookAsync(Guid accommodationId, BookingDetails details);
-        Task<List<Booking>> ListAsync();
+        Task<List<Booking>> ListPendingAsync();
+        Task CancelAsync(Guid id);
+        Task<Booking> FindAsync(Guid id);
     }
 }
