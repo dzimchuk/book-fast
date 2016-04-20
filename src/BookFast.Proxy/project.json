@@ -1,0 +1,15 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "BookFast.Proxy Class Library",
+  "authors": [ "Andrei Dzimchuk" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+    "net451": { }
+  },
+  "dependencies": {
+    "BookFast.Api.Client": "1.0.0-*",
+    "BookFast.Contracts": "1.0.0-*"
+  }
+}

@@ -7,6 +7,5 @@ namespace BookFast.Contracts
     public interface ISearchService
     {
         Task<IList<SearchResult>> SearchAsync(string searchText, int page);
-        Task<IList<SuggestResult>> SuggestAsync(string searchText);
     }
 }

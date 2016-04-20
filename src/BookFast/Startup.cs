@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BookFast.Contracts.Framework;
-using BookFast.Infrastructure;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,13 +33,10 @@ namespace BookFast
         {
             var modules = new List<ICompositionModule>
                           {
-                              new Composition.CompositionModule(),
-                              new Business.Composition.CompositionModule(),
-                              new Data.Composition.CompositionModule()
+                              new Composition.CompositionModule()
                           };
-
 #if DNX451
-            modules.Add(new Search.Composition.CompositionModule());
+            modules.Add(new Proxy.Composition.CompositionModule());
 #endif
 
             foreach (var module in modules)
@@ -66,10 +62,7 @@ namespace BookFast
             }
 
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
-
             app.UseStaticFiles();
-
-            app.UseIdentity();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
             app.UseFacebookAuthentication(options =>
@@ -77,8 +70,6 @@ namespace BookFast
                                               options.AppId = Configuration["Authentication:Facebook:AppId"];
                                               options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                                           });
-
-            app.UseSecurityContext();
 
             app.UseMvc(routes =>
             {
