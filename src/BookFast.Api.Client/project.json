@@ -1,0 +1,16 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "BookFast.Api.Client Class Library",
+  "authors": [ "Andrei Dzimchuk" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "Microsoft.Rest.ClientRuntime": "2.1.0" 
+  },
+
+  "frameworks": {
+    "net451": { }
+  }
+}

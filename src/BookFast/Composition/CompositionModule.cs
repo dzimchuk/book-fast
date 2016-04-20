@@ -4,11 +4,7 @@ using BookFast.Contracts.Security;
 using BookFast.Controllers;
 using BookFast.Infrastructure;
 using BookFast.Mappers;
-using BookFast.Models;
-using BookFast.Services;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Data.Entity;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace BookFast.Composition
@@ -17,16 +13,6 @@ namespace BookFast.Composition
     {
         public void AddServices(IServiceCollection services, IConfiguration configuration)
         {
-            // Add framework services.
-            services.AddEntityFramework()
-                .AddSqlServer()
-                .AddDbContext<ApplicationDbContext>(options =>
-                    options.UseSqlServer(configuration["Data:DefaultConnection:ConnectionString"]));
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
             services.AddMvc();
 
             RegisterAuthorizationPolicies(services);
@@ -44,9 +30,6 @@ namespace BookFast.Composition
 
         private static void RegisterApplicationServices(IServiceCollection services)
         {
-            services.AddTransient<IEmailSender, AuthMessageSender>();
-            services.AddTransient<ISmsSender, AuthMessageSender>();
-
             var provider = new SecurityContextProvider();
             services.AddInstance<ISecurityContextAcceptor>(provider);
             services.AddInstance<ISecurityContext>(provider);
