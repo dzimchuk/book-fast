@@ -11,6 +11,8 @@ namespace BookFast.Composition
     {
         public void AddServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<AuthenticationOptions>(configuration.GetSection("Authentication:AzureAd"));
+
             services.AddMvc();
 
             RegisterAuthorizationPolicies(services);

@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BookFast.Contracts.Framework;
+using Microsoft.AspNet.Authentication;
+using Microsoft.AspNet.Authentication.Cookies;
+using Microsoft.AspNet.Authentication.OpenIdConnect;
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.OptionsModel;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using AuthenticationOptions = BookFast.Contracts.Security.AuthenticationOptions;
 
 namespace BookFast
 {
@@ -45,7 +52,8 @@ namespace BookFast
             }
         }
         
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            ILoggerFactory loggerFactory, IOptions<AuthenticationOptions> authOptions)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -64,12 +72,17 @@ namespace BookFast
             app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
             app.UseStaticFiles();
 
-            // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715
-            app.UseFacebookAuthentication(options =>
-                                          {
-                                              options.AppId = Configuration["Authentication:Facebook:AppId"];
-                                              options.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
-                                          });
+            app.UseCookieAuthentication(options => options.AutomaticAuthenticate = true);
+            app.UseOpenIdConnectAuthentication(options =>
+                                               {
+                                                   options.AutomaticChallenge = true;
+                                                   options.Authority = authOptions.Value.Authority;
+                                                   options.ClientId = authOptions.Value.ClientId;
+                                                   options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                                                   options.PostLogoutRedirectUri = authOptions.Value.PostLogoutRedirectUri;
+
+                                                   options.Events = CreateOpenIdConnectEventHandlers(authOptions.Value);
+                                               });
 
             app.UseMvc(routes =>
             {
@@ -77,6 +90,20 @@ namespace BookFast
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private static IOpenIdConnectEvents CreateOpenIdConnectEventHandlers(AuthenticationOptions authOptions)
+        {
+            return new OpenIdConnectEvents
+                   {
+                       OnAuthorizationCodeReceived = context =>
+                                                     {
+                                                         var clientCredential = new ClientCredential(authOptions.ClientId, authOptions.ClientSecret);
+                                                         var authenticationContext = new AuthenticationContext(authOptions.Authority);
+                                                         return authenticationContext.AcquireTokenByAuthorizationCodeAsync(context.Code,
+                                                             new Uri(context.RedirectUri, UriKind.RelativeOrAbsolute), clientCredential, authOptions.ApiResource);
+                                                     }
+                   };
         }
 
         // Entry point for the application.
