@@ -6,10 +6,17 @@
   "projectUrl": "",
   "licenseUrl": "",
   "frameworks": {
-    "net451": { }
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Runtime": "4.0.10.0",
+        "System.Threading.Tasks": "4.0.0.0"
+      }
+    }
   },
   "dependencies": {
-    "BookFast.Api.Client": "1.0.0-*",
-    "BookFast.Contracts": "1.0.0-*"
+    "BookFast.Contracts": "1.0.0-*",
+    "Microsoft.Rest.ClientRuntime": "2.1.0",
+    "Microsoft.IdentityModel.Clients.ActiveDirectory": "3.9.302261508-alpha",
+    "AutoMapper": "4.2.1"
   }
 }

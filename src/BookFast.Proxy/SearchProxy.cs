@@ -7,9 +7,21 @@ namespace BookFast.Proxy
 {
     internal class SearchProxy : ISearchService
     {
-        public Task<IList<SearchResult>> SearchAsync(string searchText, int page)
+        private readonly IBookFastAPIFactory restClientFactory;
+        private readonly ISearchMapper mapper;
+
+        public SearchProxy(IBookFastAPIFactory restClientFactory, ISearchMapper mapper)
         {
-            throw new System.NotImplementedException();
+            this.restClientFactory = restClientFactory;
+            this.mapper = mapper;
+        }
+
+        public async Task<IList<SearchResult>> SearchAsync(string searchText, int page)
+        {
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.SearchWithHttpMessagesAsync(searchText, page);
+
+            return mapper.MapFrom(result.Body);
         }
     }
 }

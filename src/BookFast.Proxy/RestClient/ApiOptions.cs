@@ -1,4 +1,4 @@
-﻿namespace BookFast.Proxy
+﻿namespace BookFast.Proxy.RestClient
 {
     public class ApiOptions
     {

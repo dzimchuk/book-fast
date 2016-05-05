@@ -1,5 +1,7 @@
 ﻿using BookFast.Contracts;
 using BookFast.Contracts.Framework;
+using BookFast.Proxy.Mappers;
+using BookFast.Proxy.RestClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +17,12 @@ namespace BookFast.Proxy.Composition
             services.AddScoped<ISearchService, SearchProxy>();
 
             services.Configure<ApiOptions>(configuration.GetSection("BookFastApi"));
+            services.AddScoped<IBookFastAPIFactory, BookFastAPIFactory>();
+
+            services.AddScoped<IFacilityMapper, FacilityMapper>();
+            services.AddScoped<IAccommodationMapper, AccommodationMapper>();
+            services.AddScoped<IBookingMapper, BookingMapper>();
+            services.AddScoped<ISearchMapper, SearchMapper>();
         }
     }
 }

@@ -1,36 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using BookFast.Contracts;
+using BookFast.Contracts.Exceptions;
 using BookFast.Contracts.Models;
 
 namespace BookFast.Proxy
 {
     internal class FacilityProxy : IFacilityService
     {
-        public Task<List<Facility>> ListAsync()
+        private readonly IBookFastAPIFactory restClientFactory;
+        private readonly IFacilityMapper mapper;
+
+        public FacilityProxy(IBookFastAPIFactory restClientFactory, IFacilityMapper mapper)
         {
-            throw new NotImplementedException();
+            this.restClientFactory = restClientFactory;
+            this.mapper = mapper;
         }
 
-        public Task<Facility> FindAsync(Guid facilityId)
+        public async Task<List<Facility>> ListAsync()
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.ListFacilitiesWithHttpMessagesAsync();
+
+            return mapper.MapFrom(result.Body);
         }
 
-        public Task CreateAsync(FacilityDetails details)
+        public async Task<Facility> FindAsync(Guid facilityId)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.FindFacilityWithHttpMessagesAsync(facilityId.ToString());
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new FacilityNotFoundException(facilityId);
+
+            return mapper.MapFrom(result.Body);
         }
 
-        public Task UpdateAsync(Guid facilityId, FacilityDetails details)
+        public async Task CreateAsync(FacilityDetails details)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            await client.CreateFacilityWithHttpMessagesAsync(mapper.MapFrom(details));
         }
 
-        public Task DeleteAsync(Guid facilityId)
+        public async Task UpdateAsync(Guid facilityId, FacilityDetails details)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.UpdateFacilityWithHttpMessagesAsync(facilityId.ToString(), mapper.MapFrom(details));
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new FacilityNotFoundException(facilityId);
+        }
+
+        public async Task DeleteAsync(Guid facilityId)
+        {
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.DeleteFacilityWithHttpMessagesAsync(facilityId.ToString());
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new FacilityNotFoundException(facilityId);
         }
     }
 }

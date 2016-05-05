@@ -1,31 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using BookFast.Contracts;
+using BookFast.Contracts.Exceptions;
 using BookFast.Contracts.Models;
 
 namespace BookFast.Proxy
 {
     internal class BookingProxy : IBookingService
     {
-        public Task BookAsync(Guid accommodationId, BookingDetails details)
+        private readonly IBookFastAPIFactory restClientFactory;
+        private readonly IBookingMapper mapper;
+
+        public BookingProxy(IBookFastAPIFactory restClientFactory, IBookingMapper mapper)
         {
-            throw new NotImplementedException();
+            this.restClientFactory = restClientFactory;
+            this.mapper = mapper;
         }
 
-        public Task<List<Booking>> ListPendingAsync()
+        public async Task BookAsync(Guid accommodationId, BookingDetails details)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+
+            var data = mapper.MapFrom(details);
+            data.AccommodationId = accommodationId.ToString();
+
+            var result = await client.CreateBookingWithHttpMessagesAsync(accommodationId.ToString(), data);
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new AccommodationNotFoundException(accommodationId);
         }
 
-        public Task CancelAsync(Guid id)
+        public async Task<List<Booking>> ListPendingAsync()
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.ListBookingsWithHttpMessagesAsync();
+
+            return mapper.MapFrom(result.Body);
         }
 
-        public Task<Booking> FindAsync(Guid id)
+        public async Task CancelAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.DeleteBookingWithHttpMessagesAsync(id.ToString());
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new BookingNotFoundException(id);
+        }
+
+        public async Task<Booking> FindAsync(Guid id)
+        {
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.FindBookingWithHttpMessagesAsync(id.ToString());
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new BookingNotFoundException(id);
+
+            return mapper.MapFrom(result.Body);
         }
     }
 }

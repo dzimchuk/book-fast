@@ -1,36 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using BookFast.Contracts;
+using BookFast.Contracts.Exceptions;
 using BookFast.Contracts.Models;
 
 namespace BookFast.Proxy
 {
     internal class AccommodationProxy : IAccommodationService
     {
-        public Task<List<Accommodation>> ListAsync(Guid facilityId)
+        private readonly IBookFastAPIFactory restClientFactory;
+        private readonly IAccommodationMapper mapper;
+
+        public AccommodationProxy(IBookFastAPIFactory restClientFactory, IAccommodationMapper mapper)
         {
-            throw new NotImplementedException();
+            this.restClientFactory = restClientFactory;
+            this.mapper = mapper;
         }
 
-        public Task<Accommodation> FindAsync(Guid accommodationId)
+        public async Task<List<Accommodation>> ListAsync(Guid facilityId)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.ListAccommodationsWithHttpMessagesAsync(facilityId.ToString());
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new FacilityNotFoundException(facilityId);
+
+            return mapper.MapFrom(result.Body);
         }
 
-        public Task CreateAsync(Guid facilityId, AccommodationDetails details)
+        public async Task<Accommodation> FindAsync(Guid accommodationId)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.FindAccommodationWithHttpMessagesAsync(accommodationId.ToString());
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new AccommodationNotFoundException(accommodationId);
+
+            return mapper.MapFrom(result.Body);
         }
 
-        public Task UpdateAsync(Guid accommodationId, AccommodationDetails details)
+        public async Task CreateAsync(Guid facilityId, AccommodationDetails details)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.CreateAccommodationWithHttpMessagesAsync(facilityId.ToString(), mapper.MapFrom(details));
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new FacilityNotFoundException(facilityId);
         }
 
-        public Task DeleteAsync(Guid accommodationId)
+        public async Task UpdateAsync(Guid accommodationId, AccommodationDetails details)
         {
-            throw new NotImplementedException();
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.UpdateAccommodationWithHttpMessagesAsync(accommodationId.ToString(), mapper.MapFrom(details));
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new AccommodationNotFoundException(accommodationId);
+        }
+
+        public async Task DeleteAsync(Guid accommodationId)
+        {
+            var client = await restClientFactory.CreateAsync();
+            var result = await client.DeleteAccommodationWithHttpMessagesAsync(accommodationId.ToString());
+
+            if (result.Response.StatusCode == HttpStatusCode.NotFound)
+                throw new AccommodationNotFoundException(accommodationId);
         }
     }
 }
