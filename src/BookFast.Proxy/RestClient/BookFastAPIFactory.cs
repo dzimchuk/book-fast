@@ -12,6 +12,12 @@ namespace BookFast.Proxy.RestClient
         private readonly AuthenticationOptions authOptions;
         private readonly ApiOptions apiOptions;
 
+        static BookFastAPIFactory()
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback +=
+                (o, certificate, chain, errors) => true;
+        }
+
         public BookFastAPIFactory(IOptions<AuthenticationOptions> authOptions, IOptions<ApiOptions> apiOptions)
         {
             this.authOptions = authOptions.Value;
@@ -23,10 +29,17 @@ namespace BookFast.Proxy.RestClient
             var clientCredential = new ClientCredential(authOptions.ClientId, authOptions.ClientSecret);
             var authenticationContext = new AuthenticationContext(authOptions.Authority);
 
-            var authenticationResult = await authenticationContext.AcquireTokenSilentAsync(authOptions.ApiResource,
-                clientCredential, UserIdentifier.AnyUser);
+            try
+            {
+                var authenticationResult = await authenticationContext.AcquireTokenSilentAsync(authOptions.ApiResource,
+                    clientCredential, UserIdentifier.AnyUser);
 
-            return new BookFastAPI(new Uri(apiOptions.BaseUri, UriKind.Absolute), new TokenCredentials(authenticationResult.AccessToken));
+                return new BookFastAPI(new Uri(apiOptions.BaseUrl, UriKind.Absolute), new TokenCredentials(authenticationResult.AccessToken));
+            }
+            catch (AdalSilentTokenAcquisitionException e)
+            {
+                return new BookFastAPI(new Uri(apiOptions.BaseUrl, UriKind.Absolute), new EmptyCredentials());
+            }
         }
     }
 }
