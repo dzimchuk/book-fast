@@ -3,19 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{235281B3-7F46-4736-8998-66782BD7C417}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DAF71294-D5A2-4E39-8640-ED3746D67D6E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B8019F6B-9CA5-4E3A-8A5E-CD867CABDB6D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6E6C05E3-7763-4F2E-9B21-AB5652574268}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
-		NuGet.config = NuGet.config
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BookFast", "src\BookFast\BookFast.xproj", "{3AC3A282-C453-4D6B-81F1-0B96E749BDD1}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BookFast", "src\BookFast\BookFast.xproj", "{50FFB0F4-01E1-481F-B83A-1B2C1ED1D710}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BookFast.Contracts", "src\BookFast.Contracts\BookFast.Contracts.xproj", "{754BFC88-B8FB-4462-95FD-47D5A670206D}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BookFast.Contracts", "src\BookFast.Contracts\BookFast.Contracts.xproj", "{C4DAD9DB-B625-4541-BC8F-02E254D86C06}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BookFast.Proxy", "src\BookFast.Proxy\BookFast.Proxy.xproj", "{1664BA35-3F84-4D84-A3E4-7CED89B09DC4}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BookFast.Proxy", "src\BookFast.Proxy\BookFast.Proxy.xproj", "{FDC6ECAD-2C0E-4F5A-8CE5-DB7597010167}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,25 +22,25 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3AC3A282-C453-4D6B-81F1-0B96E749BDD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AC3A282-C453-4D6B-81F1-0B96E749BDD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AC3A282-C453-4D6B-81F1-0B96E749BDD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AC3A282-C453-4D6B-81F1-0B96E749BDD1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{754BFC88-B8FB-4462-95FD-47D5A670206D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{754BFC88-B8FB-4462-95FD-47D5A670206D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{754BFC88-B8FB-4462-95FD-47D5A670206D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{754BFC88-B8FB-4462-95FD-47D5A670206D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1664BA35-3F84-4D84-A3E4-7CED89B09DC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1664BA35-3F84-4D84-A3E4-7CED89B09DC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1664BA35-3F84-4D84-A3E4-7CED89B09DC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1664BA35-3F84-4D84-A3E4-7CED89B09DC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50FFB0F4-01E1-481F-B83A-1B2C1ED1D710}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50FFB0F4-01E1-481F-B83A-1B2C1ED1D710}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50FFB0F4-01E1-481F-B83A-1B2C1ED1D710}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50FFB0F4-01E1-481F-B83A-1B2C1ED1D710}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4DAD9DB-B625-4541-BC8F-02E254D86C06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4DAD9DB-B625-4541-BC8F-02E254D86C06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4DAD9DB-B625-4541-BC8F-02E254D86C06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4DAD9DB-B625-4541-BC8F-02E254D86C06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC6ECAD-2C0E-4F5A-8CE5-DB7597010167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC6ECAD-2C0E-4F5A-8CE5-DB7597010167}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC6ECAD-2C0E-4F5A-8CE5-DB7597010167}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC6ECAD-2C0E-4F5A-8CE5-DB7597010167}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3AC3A282-C453-4D6B-81F1-0B96E749BDD1} = {235281B3-7F46-4736-8998-66782BD7C417}
-		{754BFC88-B8FB-4462-95FD-47D5A670206D} = {235281B3-7F46-4736-8998-66782BD7C417}
-		{1664BA35-3F84-4D84-A3E4-7CED89B09DC4} = {235281B3-7F46-4736-8998-66782BD7C417}
+		{50FFB0F4-01E1-481F-B83A-1B2C1ED1D710} = {DAF71294-D5A2-4E39-8640-ED3746D67D6E}
+		{C4DAD9DB-B625-4541-BC8F-02E254D86C06} = {DAF71294-D5A2-4E39-8640-ED3746D67D6E}
+		{FDC6ECAD-2C0E-4F5A-8CE5-DB7597010167} = {DAF71294-D5A2-4E39-8640-ED3746D67D6E}
 	EndGlobalSection
 EndGlobal

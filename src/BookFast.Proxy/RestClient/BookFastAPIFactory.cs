@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BookFast.Contracts.Security;
-using Microsoft.Extensions.OptionsModel;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest;
+using Microsoft.Extensions.Options;
 
 namespace BookFast.Proxy.RestClient
 {
@@ -11,13 +11,7 @@ namespace BookFast.Proxy.RestClient
     {
         private readonly AuthenticationOptions authOptions;
         private readonly ApiOptions apiOptions;
-
-        static BookFastAPIFactory()
-        {
-            System.Net.ServicePointManager.ServerCertificateValidationCallback +=
-                (o, certificate, chain, errors) => true;
-        }
-
+        
         public BookFastAPIFactory(IOptions<AuthenticationOptions> authOptions, IOptions<ApiOptions> apiOptions)
         {
             this.authOptions = authOptions.Value;
@@ -36,7 +30,7 @@ namespace BookFast.Proxy.RestClient
 
                 return new BookFastAPI(new Uri(apiOptions.BaseUrl, UriKind.Absolute), new TokenCredentials(authenticationResult.AccessToken));
             }
-            catch (AdalSilentTokenAcquisitionException e)
+            catch (AdalSilentTokenAcquisitionException)
             {
                 return new BookFastAPI(new Uri(apiOptions.BaseUrl, UriKind.Absolute), new EmptyCredentials());
             }

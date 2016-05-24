@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using BookFast.Contracts;
 using BookFast.Contracts.Exceptions;
 using BookFast.ViewModels;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookFast.Controllers
 {
@@ -40,7 +40,7 @@ namespace BookFast.Controllers
             }
             catch (AccommodationNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
 
@@ -64,7 +64,7 @@ namespace BookFast.Controllers
             }
             catch (AccommodationNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
 
@@ -77,7 +77,7 @@ namespace BookFast.Controllers
             }
             catch (BookingNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
 
@@ -93,11 +93,11 @@ namespace BookFast.Controllers
             }
             catch (BookingNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
             catch (UserMismatchException)
             {
-                return HttpBadRequest();
+                return BadRequest();
             }
         }
     }
