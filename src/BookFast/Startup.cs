@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System;
 using System.Collections.Generic;
 using AuthenticationOptions = BookFast.Contracts.Security.AuthenticationOptions;
@@ -30,6 +31,9 @@ namespace BookFast
             }
 
             Configuration = builder.Build();
+
+            System.Net.ServicePointManager.ServerCertificateValidationCallback +=
+                (o, certificate, chain, errors) => true;
         }
 
         private IConfigurationRoot Configuration { get; }
@@ -78,6 +82,9 @@ namespace BookFast
                 Authority = authOptions.Value.Authority,
                 ClientId = authOptions.Value.ClientId,
                 ClientSecret = authOptions.Value.ClientSecret,
+
+                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
+
                 SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme,
                 PostLogoutRedirectUri = authOptions.Value.PostLogoutRedirectUri,
 
