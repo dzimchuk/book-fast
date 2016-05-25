@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 using BookFast.Contracts;
 using BookFast.Contracts.Exceptions;
 using BookFast.ViewModels;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookFast.Controllers
 {
@@ -25,7 +25,7 @@ namespace BookFast.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             try
@@ -35,7 +35,7 @@ namespace BookFast.Controllers
             }
             catch (AccommodationNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
 
@@ -43,7 +43,7 @@ namespace BookFast.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             try
@@ -53,7 +53,7 @@ namespace BookFast.Controllers
             }
             catch (AccommodationNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
 
@@ -71,11 +71,11 @@ namespace BookFast.Controllers
                 }
                 catch (AccommodationNotFoundException)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
                 catch (FacilityNotFoundException)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
             }
 
@@ -86,7 +86,7 @@ namespace BookFast.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             ViewBag.FacilityId = id.Value;
@@ -107,7 +107,7 @@ namespace BookFast.Controllers
                 }
                 catch (FacilityNotFoundException)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
             }
 
@@ -119,7 +119,7 @@ namespace BookFast.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             try
@@ -129,7 +129,7 @@ namespace BookFast.Controllers
             }
             catch (AccommodationNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
 
@@ -145,7 +145,7 @@ namespace BookFast.Controllers
             }
             catch (AccommodationNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
     }

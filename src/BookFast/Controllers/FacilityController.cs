@@ -2,9 +2,9 @@ using System;
 using System.Threading.Tasks;
 using BookFast.Contracts;
 using BookFast.Contracts.Exceptions;
-using Microsoft.AspNet.Mvc;
 using BookFast.ViewModels;
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookFast.Controllers
 {
@@ -37,7 +37,7 @@ namespace BookFast.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             try
@@ -52,7 +52,7 @@ namespace BookFast.Controllers
             }
             catch (FacilityNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
         
@@ -79,7 +79,7 @@ namespace BookFast.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             try
@@ -89,7 +89,7 @@ namespace BookFast.Controllers
             }
             catch (FacilityNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
         
@@ -108,7 +108,7 @@ namespace BookFast.Controllers
                 }
                 catch (FacilityNotFoundException)
                 {
-                    return HttpNotFound();
+                    return NotFound();
                 }
             }
 
@@ -120,7 +120,7 @@ namespace BookFast.Controllers
         {
             if (id == null)
             {
-                return HttpNotFound();
+                return NotFound();
             }
 
             try
@@ -130,7 +130,7 @@ namespace BookFast.Controllers
             }
             catch (FacilityNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
         
@@ -145,7 +145,7 @@ namespace BookFast.Controllers
             }
             catch (FacilityNotFoundException)
             {
-                return HttpNotFound();
+                return NotFound();
             }
         }
     }

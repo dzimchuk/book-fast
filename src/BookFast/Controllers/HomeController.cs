@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using BookFast.Contracts;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BookFast.Controllers
 {

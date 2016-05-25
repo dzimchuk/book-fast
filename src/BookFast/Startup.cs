@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using BookFast.Contracts.Framework;
-using Microsoft.AspNet.Authentication;
-using Microsoft.AspNet.Authentication.Cookies;
-using Microsoft.AspNet.Authentication.OpenIdConnect;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
+﻿using BookFast.Contracts.Framework;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.OptionsModel;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System;
+using System.Collections.Generic;
 using AuthenticationOptions = BookFast.Contracts.Security.AuthenticationOptions;
 
 namespace BookFast
@@ -19,32 +19,32 @@ namespace BookFast
     {
         public Startup(IHostingEnvironment env)
         {
-            // Set up configuration sources.
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
 
             if (env.IsDevelopment())
             {
-                // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
                 builder.AddUserSecrets();
             }
 
-            builder.AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            System.Net.ServicePointManager.ServerCertificateValidationCallback +=
+                (o, certificate, chain, errors) => true;
         }
 
         private IConfigurationRoot Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             var modules = new List<ICompositionModule>
                           {
-                              new Composition.CompositionModule()
+                              new Composition.CompositionModule(),
+                              new Proxy.Composition.CompositionModule()
                           };
-#if DNX451
-            modules.Add(new Proxy.Composition.CompositionModule());
-#endif
 
             foreach (var module in modules)
             {
@@ -52,37 +52,45 @@ namespace BookFast
             }
         }
         
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
-            ILoggerFactory loggerFactory, IOptions<AuthenticationOptions> authOptions)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
+            IOptions<AuthenticationOptions> authOptions)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseBrowserLink();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseIISPlatformHandler(options => options.AuthenticationDescriptions.Clear());
             app.UseStaticFiles();
 
-            app.UseCookieAuthentication(options => options.AutomaticAuthenticate = true);
-            app.UseOpenIdConnectAuthentication(options =>
-                                               {
-                                                   options.AutomaticChallenge = true;
-                                                   options.Authority = authOptions.Value.Authority;
-                                                   options.ClientId = authOptions.Value.ClientId;
-                                                   options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                                                   options.PostLogoutRedirectUri = authOptions.Value.PostLogoutRedirectUri;
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AutomaticAuthenticate = true
+            });
 
-                                                   options.Events = CreateOpenIdConnectEventHandlers(authOptions.Value);
-                                               });
+
+            var openIdOptions = new OpenIdConnectOptions
+            {
+                AutomaticChallenge = true,
+                Authority = authOptions.Value.Authority,
+                ClientId = authOptions.Value.ClientId,
+                ClientSecret = authOptions.Value.ClientSecret,
+
+                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
+
+                SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme,
+                PostLogoutRedirectUri = authOptions.Value.PostLogoutRedirectUri,
+
+                Events = CreateOpenIdConnectEventHandlers(authOptions.Value)
+            };
+            app.UseOpenIdConnectAuthentication(openIdOptions);
 
             app.UseMvc(routes =>
             {
@@ -95,18 +103,15 @@ namespace BookFast
         private static IOpenIdConnectEvents CreateOpenIdConnectEventHandlers(AuthenticationOptions authOptions)
         {
             return new OpenIdConnectEvents
-                   {
-                       OnAuthorizationCodeReceived = context =>
-                                                     {
-                                                         var clientCredential = new ClientCredential(authOptions.ClientId, authOptions.ClientSecret);
-                                                         var authenticationContext = new AuthenticationContext(authOptions.Authority);
-                                                         return authenticationContext.AcquireTokenByAuthorizationCodeAsync(context.Code,
-                                                             new Uri(context.RedirectUri, UriKind.RelativeOrAbsolute), clientCredential, authOptions.ApiResource);
-                                                     }
-                   };
+            {
+                OnAuthorizationCodeReceived = context =>
+                {
+                    var clientCredential = new ClientCredential(authOptions.ClientId, authOptions.ClientSecret);
+                    var authenticationContext = new AuthenticationContext(authOptions.Authority);
+                    return authenticationContext.AcquireTokenByAuthorizationCodeAsync(context.TokenEndpointRequest.Code,
+                        new Uri(context.TokenEndpointRequest.RedirectUri, UriKind.RelativeOrAbsolute), clientCredential, authOptions.ApiResource);
+                }
+            };
         }
-
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }
