@@ -37,7 +37,7 @@
                         {
                             <li><a asp-controller="Facility" asp-action="Index">Facilities</a></li>
                         }
-                        @if (User.Identity.IsAuthenticated)
+                        @if (await AuthorizationService.AuthorizeAsync(User, "Customer"))
                         {
                             <li><a asp-controller="Booking" asp-action="Index">My bookings</a></li>
                         }

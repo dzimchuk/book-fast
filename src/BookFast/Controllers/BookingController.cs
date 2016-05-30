@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BookFast.Controllers
 {
-    [Authorize]
+    [Authorize(Policy = "Customer")]
     public class BookingController : Controller
     {
         private readonly IBookingService bookingService;

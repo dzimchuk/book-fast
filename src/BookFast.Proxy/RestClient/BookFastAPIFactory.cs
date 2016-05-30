@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BookFast.Contracts.Security;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest;
 using Microsoft.Extensions.Options;
 
@@ -9,31 +7,21 @@ namespace BookFast.Proxy.RestClient
 {
     internal class BookFastAPIFactory : IBookFastAPIFactory
     {
-        private readonly AuthenticationOptions authOptions;
+        private readonly IAccessTokenProvider accessTokenProvider;
         private readonly ApiOptions apiOptions;
         
-        public BookFastAPIFactory(IOptions<AuthenticationOptions> authOptions, IOptions<ApiOptions> apiOptions)
+        public BookFastAPIFactory(IAccessTokenProvider accessTokenProvider, IOptions<ApiOptions> apiOptions)
         {
-            this.authOptions = authOptions.Value;
+            this.accessTokenProvider = accessTokenProvider;
             this.apiOptions = apiOptions.Value;
         }
 
         public async Task<IBookFastAPI> CreateAsync()
         {
-            var clientCredential = new ClientCredential(authOptions.ClientId, authOptions.ClientSecret);
-            var authenticationContext = new AuthenticationContext(authOptions.Authority);
+            var accessToken = await accessTokenProvider.AcquireTokenAsync();
+            var credentials = string.IsNullOrEmpty(accessToken) ? (ServiceClientCredentials)new EmptyCredentials() : new TokenCredentials(accessToken);
 
-            try
-            {
-                var authenticationResult = await authenticationContext.AcquireTokenSilentAsync(authOptions.ApiResource,
-                    clientCredential, UserIdentifier.AnyUser);
-
-                return new BookFastAPI(new Uri(apiOptions.BaseUrl, UriKind.Absolute), new TokenCredentials(authenticationResult.AccessToken));
-            }
-            catch (AdalSilentTokenAcquisitionException)
-            {
-                return new BookFastAPI(new Uri(apiOptions.BaseUrl, UriKind.Absolute), new EmptyCredentials());
-            }
+            return new BookFastAPI(new Uri(apiOptions.BaseUrl, UriKind.Absolute), credentials);
         }
     }
 }

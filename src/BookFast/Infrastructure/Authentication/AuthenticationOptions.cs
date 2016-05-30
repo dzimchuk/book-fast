@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 
-namespace BookFast.Contracts.Security
+namespace BookFast.Infrastructure.Authentication
 {
-    public class AuthenticationOptions : IOptions<AuthenticationOptions>
+    public class AuthenticationOptions
     {
         public string Instance { get; set; }
         public string TenantId { get; set; }
@@ -15,7 +15,5 @@ namespace BookFast.Contracts.Security
         public string PostLogoutRedirectUri { get; set; }
 
         public string ApiResource { get; set; }
-
-        public AuthenticationOptions Value => this;
     }
 }

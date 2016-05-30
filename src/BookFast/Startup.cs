@@ -1,17 +1,13 @@
 ﻿using BookFast.Contracts.Framework;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using BookFast.Infrastructure;
+using BookFast.Infrastructure.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using System;
 using System.Collections.Generic;
-using AuthenticationOptions = BookFast.Contracts.Security.AuthenticationOptions;
 
 namespace BookFast
 {
@@ -53,7 +49,7 @@ namespace BookFast
         }
         
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory,
-            IOptions<AuthenticationOptions> authOptions)
+            IOptions<Infrastructure.Authentication.AuthenticationOptions> authOptions, IOptions<B2CAuthenticationOptions> b2cAuthOptions, IOptions<B2CPolicies> b2cPolicies)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -75,22 +71,10 @@ namespace BookFast
                 AutomaticAuthenticate = true
             });
 
+            app.UseOpenIdConnectB2CAuthentication(b2cAuthOptions.Value, b2cPolicies.Value, true);
+            app.UseOpenIdConnectOrganizationalAuthentication(authOptions.Value, false);
 
-            var openIdOptions = new OpenIdConnectOptions
-            {
-                AutomaticChallenge = true,
-                Authority = authOptions.Value.Authority,
-                ClientId = authOptions.Value.ClientId,
-                ClientSecret = authOptions.Value.ClientSecret,
-
-                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
-
-                SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme,
-                PostLogoutRedirectUri = authOptions.Value.PostLogoutRedirectUri,
-
-                Events = CreateOpenIdConnectEventHandlers(authOptions.Value)
-            };
-            app.UseOpenIdConnectAuthentication(openIdOptions);
+            app.UseSecurityContext();
 
             app.UseMvc(routes =>
             {
@@ -98,20 +82,6 @@ namespace BookFast
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-        }
-
-        private static IOpenIdConnectEvents CreateOpenIdConnectEventHandlers(AuthenticationOptions authOptions)
-        {
-            return new OpenIdConnectEvents
-            {
-                OnAuthorizationCodeReceived = context =>
-                {
-                    var clientCredential = new ClientCredential(authOptions.ClientId, authOptions.ClientSecret);
-                    var authenticationContext = new AuthenticationContext(authOptions.Authority);
-                    return authenticationContext.AcquireTokenByAuthorizationCodeAsync(context.TokenEndpointRequest.Code,
-                        new Uri(context.TokenEndpointRequest.RedirectUri, UriKind.RelativeOrAbsolute), clientCredential, authOptions.ApiResource);
-                }
-            };
         }
     }
 }
