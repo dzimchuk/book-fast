@@ -24,7 +24,7 @@
     "Microsoft.AspNetCore.Authentication.Cookies": "1.0.0-rc2-final",
     "Microsoft.AspNetCore.Authentication.OpenIdConnect": "1.0.0-rc2-final",
     "Microsoft.IdentityModel.Clients.ActiveDirectory": "3.10.305231913",
-    "Microsoft.Experimental.IdentityModel.Clients.ActiveDirectory": "4.0.302182319-alpha"
+    "Microsoft.Experimental.IdentityModel.Clients.ActiveDirectory": "4.0.209160138-alpha"
   },
 
   "tools": {
