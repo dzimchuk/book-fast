@@ -2,16 +2,17 @@
 // Changes may cause incorrect behavior and will be lost if the code is
 // regenerated.
 
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using BookFast.Proxy.Models;
-using Microsoft.Rest;
-using Newtonsoft.Json;
-
 namespace BookFast.Proxy
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Newtonsoft.Json;
+    using Microsoft.Rest;
+    using Models;
+
     /// <summary>
     /// </summary>
     public partial interface IBookFastAPI : IDisposable
@@ -50,7 +51,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<IList<AccommodationRepresentation>>> ListAccommodationsWithHttpMessagesAsync(string facilityId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<AccommodationRepresentation>>> ListAccommodationsWithHttpMessagesAsync(Guid facilityId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Create new accommodation
@@ -67,7 +68,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<AccommodationRepresentation>> CreateAccommodationWithHttpMessagesAsync(string facilityId, AccommodationData accommodationData = default(AccommodationData), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<AccommodationRepresentation>> CreateAccommodationWithHttpMessagesAsync(Guid facilityId, AccommodationData accommodationData = default(AccommodationData), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Find accommodation by ID
@@ -81,7 +82,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<AccommodationRepresentation>> FindAccommodationWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<AccommodationRepresentation>> FindAccommodationWithHttpMessagesAsync(Guid id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Update accommodation
@@ -98,7 +99,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<AccommodationRepresentation>> UpdateAccommodationWithHttpMessagesAsync(string id, AccommodationData accommodationData = default(AccommodationData), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<AccommodationRepresentation>> UpdateAccommodationWithHttpMessagesAsync(Guid id, AccommodationData accommodationData = default(AccommodationData), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Delete accommodation
@@ -112,7 +113,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> DeleteAccommodationWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> DeleteAccommodationWithHttpMessagesAsync(Guid id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// List bookings by customer
@@ -137,7 +138,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<BookingRepresentation>> FindBookingWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<BookingRepresentation>> FindBookingWithHttpMessagesAsync(Guid id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Cancel booking
@@ -151,7 +152,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> DeleteBookingWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> DeleteBookingWithHttpMessagesAsync(Guid id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Book an accommodation
@@ -168,7 +169,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<BookingRepresentation>> CreateBookingWithHttpMessagesAsync(string accommodationId, BookingData bookingData = default(BookingData), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<BookingRepresentation>> CreateBookingWithHttpMessagesAsync(Guid accommodationId, BookingData bookingData = default(BookingData), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// List facilities by owner
@@ -207,7 +208,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<FacilityRepresentation>> FindFacilityWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<FacilityRepresentation>> FindFacilityWithHttpMessagesAsync(Guid id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Update facility
@@ -224,7 +225,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<FacilityRepresentation>> UpdateFacilityWithHttpMessagesAsync(string id, FacilityData facilityData = default(FacilityData), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<FacilityRepresentation>> UpdateFacilityWithHttpMessagesAsync(Guid id, FacilityData facilityData = default(FacilityData), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Delete facility
@@ -238,7 +239,41 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse> DeleteFacilityWithHttpMessagesAsync(string id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse> DeleteFacilityWithHttpMessagesAsync(Guid id, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Get a write access token for a new facility image
+        /// </summary>
+        /// <param name='id'>
+        /// Facility ID
+        /// </param>
+        /// <param name='originalFileName'>
+        /// Image file name
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<FileAccessTokenRepresentation>> FacilityImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Get a write access token for a new accommodation image
+        /// </summary>
+        /// <param name='id'>
+        /// Accommodation ID
+        /// </param>
+        /// <param name='originalFileName'>
+        /// Image file name
+        /// </param>
+        /// <param name='customHeaders'>
+        /// The headers that will be added to request.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<HttpOperationResponse<FileAccessTokenRepresentation>> AccommodationImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Search for accommodations

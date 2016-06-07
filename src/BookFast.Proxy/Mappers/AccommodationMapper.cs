@@ -17,8 +17,8 @@ namespace BookFast.Proxy.Mappers
                 configuration.CreateMap<AccommodationRepresentation, Accommodation>()
                              .ConvertUsing(representation => new Accommodation
                                                              {
-                                                                 Id = Guid.Parse(representation.Id),
-                                                                 FacilityId = Guid.Parse(representation.FacilityId),
+                                                                 Id = representation.Id ?? Guid.Empty,
+                                                                 FacilityId = representation.FacilityId ?? Guid.Empty,
                                                                  Details = new AccommodationDetails
                                                                            {
                                                                                Name = representation.Name,

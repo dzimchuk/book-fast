@@ -2,11 +2,11 @@
 // Changes may cause incorrect behavior and will be lost if the code is
 // regenerated.
 
-using System.Collections.Generic;
-using Newtonsoft.Json;
-
 namespace BookFast.Proxy.Models
 {
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
+
     public partial class SearchResult
     {
         /// <summary>

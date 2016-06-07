@@ -2,11 +2,11 @@
 // Changes may cause incorrect behavior and will be lost if the code is
 // regenerated.
 
-using Microsoft.Rest;
-using Newtonsoft.Json;
-
 namespace BookFast.Proxy.Models
 {
+    using Newtonsoft.Json;
+    using Microsoft.Rest;
+
     public partial class AccommodationData
     {
         /// <summary>

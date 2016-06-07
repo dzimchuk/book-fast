@@ -2,10 +2,11 @@
 // Changes may cause incorrect behavior and will be lost if the code is
 // regenerated.
 
-using Newtonsoft.Json;
-
 namespace BookFast.Proxy.Models
 {
+    using System;
+    using Newtonsoft.Json;
+
     public partial class AccommodationRepresentation
     {
         /// <summary>
@@ -18,7 +19,7 @@ namespace BookFast.Proxy.Models
         /// Initializes a new instance of the AccommodationRepresentation
         /// class.
         /// </summary>
-        public AccommodationRepresentation(string id = default(string), string facilityId = default(string), string name = default(string), string description = default(string), int? roomCount = default(int?))
+        public AccommodationRepresentation(Guid? id = default(Guid?), Guid? facilityId = default(Guid?), string name = default(string), string description = default(string), int? roomCount = default(int?))
         {
             Id = id;
             FacilityId = facilityId;
@@ -31,13 +32,13 @@ namespace BookFast.Proxy.Models
         /// Accommodation ID
         /// </summary>
         [JsonProperty(PropertyName = "Id")]
-        public string Id { get; set; }
+        public Guid? Id { get; set; }
 
         /// <summary>
         /// Facility ID
         /// </summary>
         [JsonProperty(PropertyName = "FacilityId")]
-        public string FacilityId { get; set; }
+        public Guid? FacilityId { get; set; }
 
         /// <summary>
         /// Accommodation name

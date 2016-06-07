@@ -22,7 +22,7 @@ namespace BookFast.Proxy
         public async Task<List<Accommodation>> ListAsync(Guid facilityId)
         {
             var client = await restClientFactory.CreateAsync();
-            var result = await client.ListAccommodationsWithHttpMessagesAsync(facilityId.ToString());
+            var result = await client.ListAccommodationsWithHttpMessagesAsync(facilityId);
 
             if (result.Response.StatusCode == HttpStatusCode.NotFound)
                 throw new FacilityNotFoundException(facilityId);
@@ -33,7 +33,7 @@ namespace BookFast.Proxy
         public async Task<Accommodation> FindAsync(Guid accommodationId)
         {
             var client = await restClientFactory.CreateAsync();
-            var result = await client.FindAccommodationWithHttpMessagesAsync(accommodationId.ToString());
+            var result = await client.FindAccommodationWithHttpMessagesAsync(accommodationId);
 
             if (result.Response.StatusCode == HttpStatusCode.NotFound)
                 throw new AccommodationNotFoundException(accommodationId);
@@ -44,7 +44,7 @@ namespace BookFast.Proxy
         public async Task CreateAsync(Guid facilityId, AccommodationDetails details)
         {
             var client = await restClientFactory.CreateAsync();
-            var result = await client.CreateAccommodationWithHttpMessagesAsync(facilityId.ToString(), mapper.MapFrom(details));
+            var result = await client.CreateAccommodationWithHttpMessagesAsync(facilityId, mapper.MapFrom(details));
 
             if (result.Response.StatusCode == HttpStatusCode.NotFound)
                 throw new FacilityNotFoundException(facilityId);
@@ -53,7 +53,7 @@ namespace BookFast.Proxy
         public async Task UpdateAsync(Guid accommodationId, AccommodationDetails details)
         {
             var client = await restClientFactory.CreateAsync();
-            var result = await client.UpdateAccommodationWithHttpMessagesAsync(accommodationId.ToString(), mapper.MapFrom(details));
+            var result = await client.UpdateAccommodationWithHttpMessagesAsync(accommodationId, mapper.MapFrom(details));
 
             if (result.Response.StatusCode == HttpStatusCode.NotFound)
                 throw new AccommodationNotFoundException(accommodationId);
@@ -62,7 +62,7 @@ namespace BookFast.Proxy
         public async Task DeleteAsync(Guid accommodationId)
         {
             var client = await restClientFactory.CreateAsync();
-            var result = await client.DeleteAccommodationWithHttpMessagesAsync(accommodationId.ToString());
+            var result = await client.DeleteAccommodationWithHttpMessagesAsync(accommodationId);
 
             if (result.Response.StatusCode == HttpStatusCode.NotFound)
                 throw new AccommodationNotFoundException(accommodationId);

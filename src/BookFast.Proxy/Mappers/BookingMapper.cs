@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using AutoMapper;
 using BookFast.Contracts.Models;
@@ -24,10 +23,10 @@ namespace BookFast.Proxy.Mappers
                 configuration.CreateMap<BookingRepresentation, Booking>()
                              .ConvertUsing(representation => new Booking
                                                              {
-                                                                 Id = Guid.Parse(representation.Id),
-                                                                 AccommodationId = Guid.Parse(representation.AccommodationId),
+                                                                 Id = representation.Id ?? Guid.Empty,
+                                                                 AccommodationId = representation.AccommodationId ?? Guid.Empty,
                                                                  AccommodationName = representation.AccommodationName,
-                                                                 FacilityId = Guid.Parse(representation.FacilityId),
+                                                                 FacilityId = representation.FacilityId ?? Guid.Empty,
                                                                  FacilityName = representation.FacilityName,
                                                                  StreetAddress = representation.StreetAddress,
                                                                  User = null,

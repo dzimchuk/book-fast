@@ -2,11 +2,11 @@
 // Changes may cause incorrect behavior and will be lost if the code is
 // regenerated.
 
-using System;
-using Newtonsoft.Json;
-
 namespace BookFast.Proxy.Models
 {
+    using System;
+    using Newtonsoft.Json;
+
     public partial class BookingRepresentation
     {
         /// <summary>
@@ -17,7 +17,7 @@ namespace BookFast.Proxy.Models
         /// <summary>
         /// Initializes a new instance of the BookingRepresentation class.
         /// </summary>
-        public BookingRepresentation(string id = default(string), string accommodationId = default(string), string accommodationName = default(string), string facilityId = default(string), string facilityName = default(string), string streetAddress = default(string), DateTime? fromDate = default(DateTime?), DateTime? toDate = default(DateTime?))
+        public BookingRepresentation(Guid? id = default(Guid?), Guid? accommodationId = default(Guid?), string accommodationName = default(string), Guid? facilityId = default(Guid?), string facilityName = default(string), string streetAddress = default(string), DateTime? fromDate = default(DateTime?), DateTime? toDate = default(DateTime?))
         {
             Id = id;
             AccommodationId = accommodationId;
@@ -33,13 +33,13 @@ namespace BookFast.Proxy.Models
         /// Booking ID
         /// </summary>
         [JsonProperty(PropertyName = "Id")]
-        public string Id { get; set; }
+        public Guid? Id { get; set; }
 
         /// <summary>
         /// Accommodation ID
         /// </summary>
         [JsonProperty(PropertyName = "AccommodationId")]
-        public string AccommodationId { get; set; }
+        public Guid? AccommodationId { get; set; }
 
         /// <summary>
         /// Accommodation name
@@ -51,7 +51,7 @@ namespace BookFast.Proxy.Models
         /// Facility ID
         /// </summary>
         [JsonProperty(PropertyName = "FacilityId")]
-        public string FacilityId { get; set; }
+        public Guid? FacilityId { get; set; }
 
         /// <summary>
         /// Facility name

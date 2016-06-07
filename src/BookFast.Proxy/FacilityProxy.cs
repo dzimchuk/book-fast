@@ -30,7 +30,7 @@ namespace BookFast.Proxy
         public async Task<Facility> FindAsync(Guid facilityId)
         {
             var client = await restClientFactory.CreateAsync();
-            var result = await client.FindFacilityWithHttpMessagesAsync(facilityId.ToString());
+            var result = await client.FindFacilityWithHttpMessagesAsync(facilityId);
 
             if (result.Response.StatusCode == HttpStatusCode.NotFound)
                 throw new FacilityNotFoundException(facilityId);
@@ -47,7 +47,7 @@ namespace BookFast.Proxy
         public async Task UpdateAsync(Guid facilityId, FacilityDetails details)
         {
             var client = await restClientFactory.CreateAsync();
-            var result = await client.UpdateFacilityWithHttpMessagesAsync(facilityId.ToString(), mapper.MapFrom(details));
+            var result = await client.UpdateFacilityWithHttpMessagesAsync(facilityId, mapper.MapFrom(details));
 
             if (result.Response.StatusCode == HttpStatusCode.NotFound)
                 throw new FacilityNotFoundException(facilityId);
@@ -56,7 +56,7 @@ namespace BookFast.Proxy
         public async Task DeleteAsync(Guid facilityId)
         {
             var client = await restClientFactory.CreateAsync();
-            var result = await client.DeleteFacilityWithHttpMessagesAsync(facilityId.ToString());
+            var result = await client.DeleteFacilityWithHttpMessagesAsync(facilityId);
 
             if (result.Response.StatusCode == HttpStatusCode.NotFound)
                 throw new FacilityNotFoundException(facilityId);
