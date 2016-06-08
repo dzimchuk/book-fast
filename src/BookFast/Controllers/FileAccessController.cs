@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace BookFast.Controllers
 {
-    [Authorize(Policy = "Facility.Write")]
+    [Authorize(Policy = "FacilityProviderOnly")]
     public class FileAccessController : Controller
     {
         private readonly IFileAccessProxy proxy;
+        private readonly IFileAccessMapper mapper;
 
-        public FileAccessController(IFileAccessProxy proxy)
+        public FileAccessController(IFileAccessProxy proxy, IFileAccessMapper mapper)
         {
             this.proxy = proxy;
+            this.mapper = mapper;
         }
         
         [HttpGet("/api/facilities/{id}/image-token")]
@@ -26,7 +28,7 @@ namespace BookFast.Controllers
                     throw new ArgumentNullException(nameof(originalFileName));
 
                 var token = await proxy.IssueFacilityImageUploadTokenAsync(id, originalFileName);
-                return Ok(token);
+                return Ok(mapper.MapFrom(token));
             }
             catch (ArgumentNullException)
             {

@@ -23,11 +23,10 @@ namespace BookFast.Proxy.Models
         /// Initializes a new instance of the FileAccessTokenRepresentation
         /// class.
         /// </summary>
-        public FileAccessTokenRepresentation(string accessPermission = default(string), string url = default(string), string fileName = default(string))
+        public FileAccessTokenRepresentation(string accessPermission = default(string), string url = default(string))
         {
             AccessPermission = accessPermission;
             Url = url;
-            FileName = fileName;
         }
 
         /// <summary>
@@ -40,11 +39,6 @@ namespace BookFast.Proxy.Models
         /// </summary>
         [JsonProperty(PropertyName = "Url")]
         public string Url { get; set; }
-
-        /// <summary>
-        /// </summary>
-        [JsonProperty(PropertyName = "FileName")]
-        public string FileName { get; set; }
 
     }
 }
