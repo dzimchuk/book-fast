@@ -38,6 +38,18 @@
     </p>
 }
 
+@if (Model.Facility.Images != null && Model.Facility.Images.Any())
+{
+    <div class="row">
+        @foreach (var image in Model.Facility.Images)
+        {
+            <div class="col-sm-6 col-md-3">
+                <img class="img-thumbnail" src="@image" alt="">
+            </div>
+        }
+    </div>
+}
+
 <h3>Accommodations</h3>
 
 @if (isFacilityProvider)
@@ -47,33 +59,36 @@
     </p>
 }
 
-<div>
-    <table class="table">
-        <thead>
+@if (Model.Accommodations.Any())
+{
+    <div>
+        <table class="table">
+            <thead>
             <th>Name</th>
             <th>Description</th>
             <th>Rooms</th>
             <th></th>
-        </thead>
-        <tbody>
-            @foreach (var accommodaiton in Model.Accommodations)
-            {
-                <tr>
-                    <td>@accommodaiton.Name</td>
-                    <td>@accommodaiton.Description</td>
-                    <td>@accommodaiton.RoomCount</td>
-                    <td>
-                        <a asp-controller="accommodation" asp-action="Details" asp-route-id="@accommodaiton.Id">Details</a>
-                        @if (isFacilityProvider)
-                        {
-                            @: |
-                            <a asp-controller="accommodation" asp-action="Edit" asp-route-id="@accommodaiton.Id">Edit</a> 
-                            @: |
-                            <a asp-controller="accommodation" asp-action="Delete" asp-route-id="@accommodaiton.Id">Delete</a>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var accommodaiton in Model.Accommodations)
+                {
+                    <tr>
+                        <td>@accommodaiton.Name</td>
+                        <td>@accommodaiton.Description</td>
+                        <td>@accommodaiton.RoomCount</td>
+                        <td>
+                            <a asp-controller="accommodation" asp-action="Details" asp-route-id="@accommodaiton.Id">Details</a>
+                            @if (isFacilityProvider)
+                            {
+                                @: |
+                                <a asp-controller="accommodation" asp-action="Edit" asp-route-id="@accommodaiton.Id">Edit</a>
+                                @: |
+                                <a asp-controller="accommodation" asp-action="Delete" asp-route-id="@accommodaiton.Id">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

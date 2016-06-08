@@ -29,7 +29,8 @@ namespace BookFast.Proxy.Mappers
                                                                            }
                                                              });
                 configuration.CreateMap<AccommodationDetails, AccommodationData>()
-                .ForMember(details => details.Images, config => config.ResolveUsing<ArrayToListResolver>());
+                .ForMember(details => details.Images, 
+                    config => config.ResolveUsing<ArrayToListResolver>().FromMember(details => details.Images));
             });
 
             mapperConfiguration.AssertConfigurationIsValid();

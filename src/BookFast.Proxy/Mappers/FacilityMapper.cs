@@ -37,7 +37,8 @@ namespace BookFast.Proxy.Mappers
                 configuration.CreateMap<FacilityDetails, FacilityData>()
                              .ForMember(d => d.Latitude, config => config.Ignore())
                              .ForMember(d => d.Longitude, config => config.Ignore())
-                             .ForMember(d => d.Images, config => config.ResolveUsing<ArrayToListResolver>());
+                             .ForMember(d => d.Images, 
+                                config => config.ResolveUsing<ArrayToListResolver>().FromMember(d => d.Images));
             });
 
             mapperConfiguration.AssertConfigurationIsValid();

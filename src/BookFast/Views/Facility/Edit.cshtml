@@ -38,7 +38,32 @@
             </div>
         </div>
     </div>
+
+    @if (Model.Images != null && Model.Images.Any())
+    {
+        foreach (var image in Model.Images)
+        {
+            <input type="hidden" value="@image" name="images" />
+        }
+    }
 </form>
+
+<div>
+    <div class="row">
+        @if (Model.Images != null && Model.Images.Any())
+        {
+            foreach (var image in Model.Images)
+            {
+                <div class="col-sm-6 col-md-3 img_container">
+                    <img class="img-thumbnail" src="@image" alt="">
+                    <button class="btn btn_remove_image btn-info" data-image="@image">Remove</button>
+                </div>
+            }
+        }
+    </div>
+
+    <button class="btn btn-primary">Add image</button>
+</div>
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
