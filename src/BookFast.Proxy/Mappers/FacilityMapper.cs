@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using BookFast.Contracts.Models;
 using BookFast.Proxy.Models;
+using System.Linq;
 
 namespace BookFast.Proxy.Mappers
 {
@@ -23,7 +24,8 @@ namespace BookFast.Proxy.Mappers
                                                                            {
                                                                                Name = representation.Name,
                                                                                Description = representation.Description,
-                                                                               StreetAddress = representation.StreetAddress
+                                                                               StreetAddress = representation.StreetAddress,
+                                                                               Images = representation.Images != null ? representation.Images.ToArray() : null
                                                                            },
                                                                  Location = new Location
                                                                             {
@@ -34,7 +36,8 @@ namespace BookFast.Proxy.Mappers
                                                              });
                 configuration.CreateMap<FacilityDetails, FacilityData>()
                              .ForMember(d => d.Latitude, config => config.Ignore())
-                             .ForMember(d => d.Longitude, config => config.Ignore());
+                             .ForMember(d => d.Longitude, config => config.Ignore())
+                             .ForMember(d => d.Images, config => config.ResolveUsing<ArrayToListResolver>());
             });
 
             mapperConfiguration.AssertConfigurationIsValid();

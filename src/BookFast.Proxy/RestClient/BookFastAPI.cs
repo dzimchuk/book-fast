@@ -5,11 +5,14 @@
 namespace BookFast.Proxy.RestClient
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
+    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Rest;
@@ -1887,7 +1890,7 @@ namespace BookFast.Proxy.RestClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<FileAccessTokenRepresentation>> FacilityImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<FileAccessTokenRepresentation>> GetFacilityImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -1899,7 +1902,7 @@ namespace BookFast.Proxy.RestClient
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("originalFileName", originalFileName);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "FacilityImageUploadToken", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetFacilityImageUploadToken", tracingParameters);
             }
             // Construct URL
             var _baseUrl = this.BaseUri.AbsoluteUri;
@@ -2017,7 +2020,7 @@ namespace BookFast.Proxy.RestClient
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<FileAccessTokenRepresentation>> AccommodationImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<FileAccessTokenRepresentation>> GetAccommodationImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -2029,7 +2032,7 @@ namespace BookFast.Proxy.RestClient
                 tracingParameters.Add("id", id);
                 tracingParameters.Add("originalFileName", originalFileName);
                 tracingParameters.Add("cancellationToken", cancellationToken);
-                ServiceClientTracing.Enter(_invocationId, this, "AccommodationImageUploadToken", tracingParameters);
+                ServiceClientTracing.Enter(_invocationId, this, "GetAccommodationImageUploadToken", tracingParameters);
             }
             // Construct URL
             var _baseUrl = this.BaseUri.AbsoluteUri;

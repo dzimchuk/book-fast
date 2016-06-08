@@ -256,7 +256,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<FileAccessTokenRepresentation>> FacilityImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<FileAccessTokenRepresentation>> GetFacilityImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Get a write access token for a new accommodation image
@@ -273,7 +273,7 @@ namespace BookFast.Proxy
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<HttpOperationResponse<FileAccessTokenRepresentation>> AccommodationImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<FileAccessTokenRepresentation>> GetAccommodationImageUploadTokenWithHttpMessagesAsync(Guid id, string originalFileName = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Search for accommodations

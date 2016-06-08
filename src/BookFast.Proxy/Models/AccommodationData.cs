@@ -4,8 +4,12 @@
 
 namespace BookFast.Proxy.Models
 {
+    using System;
+    using System.Linq;
+    using System.Collections.Generic;
     using Newtonsoft.Json;
     using Microsoft.Rest;
+    using Microsoft.Rest.Serialization;
 
     public partial class AccommodationData
     {
@@ -17,11 +21,12 @@ namespace BookFast.Proxy.Models
         /// <summary>
         /// Initializes a new instance of the AccommodationData class.
         /// </summary>
-        public AccommodationData(string name, string description = default(string), int? roomCount = default(int?))
+        public AccommodationData(string name, IList<string> images, string description = default(string), int? roomCount = default(int?))
         {
             Name = name;
             Description = description;
             RoomCount = roomCount;
+            Images = images;
         }
 
         /// <summary>
@@ -43,6 +48,12 @@ namespace BookFast.Proxy.Models
         public int? RoomCount { get; set; }
 
         /// <summary>
+        /// Accommodation images
+        /// </summary>
+        [JsonProperty(PropertyName = "Images")]
+        public IList<string> Images { get; set; }
+
+        /// <summary>
         /// Validate the object. Throws ValidationException if validation fails.
         /// </summary>
         public virtual void Validate()
@@ -50,6 +61,10 @@ namespace BookFast.Proxy.Models
             if (Name == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "Name");
+            }
+            if (Images == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Images");
             }
             if (this.Name != null)
             {

@@ -4,8 +4,12 @@
 
 namespace BookFast.Proxy.Models
 {
+    using System;
+    using System.Linq;
+    using System.Collections.Generic;
     using Newtonsoft.Json;
     using Microsoft.Rest;
+    using Microsoft.Rest.Serialization;
 
     public partial class FacilityData
     {
@@ -17,13 +21,14 @@ namespace BookFast.Proxy.Models
         /// <summary>
         /// Initializes a new instance of the FacilityData class.
         /// </summary>
-        public FacilityData(string name, string streetAddress, string description = default(string), double? longitude = default(double?), double? latitude = default(double?))
+        public FacilityData(string name, string streetAddress, IList<string> images, string description = default(string), double? longitude = default(double?), double? latitude = default(double?))
         {
             Name = name;
             Description = description;
             StreetAddress = streetAddress;
             Longitude = longitude;
             Latitude = latitude;
+            Images = images;
         }
 
         /// <summary>
@@ -57,6 +62,12 @@ namespace BookFast.Proxy.Models
         public double? Latitude { get; set; }
 
         /// <summary>
+        /// Facility images
+        /// </summary>
+        [JsonProperty(PropertyName = "Images")]
+        public IList<string> Images { get; set; }
+
+        /// <summary>
         /// Validate the object. Throws ValidationException if validation fails.
         /// </summary>
         public virtual void Validate()
@@ -68,6 +79,10 @@ namespace BookFast.Proxy.Models
             if (StreetAddress == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "StreetAddress");
+            }
+            if (Images == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "Images");
             }
             if (this.Name != null)
             {

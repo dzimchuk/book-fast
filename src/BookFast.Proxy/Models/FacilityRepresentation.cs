@@ -5,7 +5,11 @@
 namespace BookFast.Proxy.Models
 {
     using System;
+    using System.Linq;
+    using System.Collections.Generic;
     using Newtonsoft.Json;
+    using Microsoft.Rest;
+    using Microsoft.Rest.Serialization;
 
     public partial class FacilityRepresentation
     {
@@ -17,7 +21,7 @@ namespace BookFast.Proxy.Models
         /// <summary>
         /// Initializes a new instance of the FacilityRepresentation class.
         /// </summary>
-        public FacilityRepresentation(Guid? id = default(Guid?), string name = default(string), string description = default(string), string streetAddress = default(string), double? longitude = default(double?), double? latitude = default(double?), int? accommodationCount = default(int?))
+        public FacilityRepresentation(Guid? id = default(Guid?), string name = default(string), string description = default(string), string streetAddress = default(string), double? longitude = default(double?), double? latitude = default(double?), IList<string> images = default(IList<string>), int? accommodationCount = default(int?))
         {
             Id = id;
             Name = name;
@@ -25,6 +29,7 @@ namespace BookFast.Proxy.Models
             StreetAddress = streetAddress;
             Longitude = longitude;
             Latitude = latitude;
+            Images = images;
             AccommodationCount = accommodationCount;
         }
 
@@ -63,6 +68,12 @@ namespace BookFast.Proxy.Models
         /// </summary>
         [JsonProperty(PropertyName = "Latitude")]
         public double? Latitude { get; set; }
+
+        /// <summary>
+        /// Facility images
+        /// </summary>
+        [JsonProperty(PropertyName = "Images")]
+        public IList<string> Images { get; set; }
 
         /// <summary>
         /// Number of accommodations

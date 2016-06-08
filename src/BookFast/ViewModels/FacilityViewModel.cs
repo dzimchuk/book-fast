@@ -22,6 +22,8 @@ namespace BookFast.ViewModels
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
 
+        public string[] Images { get; set; }
+
         public int AccommodationCount { get; set; }
     }
 }

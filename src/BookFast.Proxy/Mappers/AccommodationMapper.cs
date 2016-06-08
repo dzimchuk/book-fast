@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AutoMapper;
 using BookFast.Contracts.Models;
 using BookFast.Proxy.Models;
+using System.Linq;
 
 namespace BookFast.Proxy.Mappers
 {
@@ -23,10 +24,12 @@ namespace BookFast.Proxy.Mappers
                                                                            {
                                                                                Name = representation.Name,
                                                                                Description = representation.Description,
-                                                                               RoomCount = representation.RoomCount ?? 0
+                                                                               RoomCount = representation.RoomCount ?? 0,
+                                                                               Images = representation.Images != null ? representation.Images.ToArray() : null
                                                                            }
                                                              });
-                configuration.CreateMap<AccommodationDetails, AccommodationData>();
+                configuration.CreateMap<AccommodationDetails, AccommodationData>()
+                .ForMember(details => details.Images, config => config.ResolveUsing<ArrayToListResolver>());
             });
 
             mapperConfiguration.AssertConfigurationIsValid();

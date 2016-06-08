@@ -23,6 +23,7 @@ namespace BookFast.Proxy.Composition
             services.AddScoped<IAccommodationMapper, AccommodationMapper>();
             services.AddScoped<IBookingMapper, BookingMapper>();
             services.AddScoped<ISearchMapper, SearchMapper>();
+            services.AddScoped<IFileAccessMapper, FileAccessMapper>();
         }
     }
 }
