@@ -39,7 +39,11 @@
             </div>
         </div>
     </div>
+
+    @await Html.PartialAsync("_ImageFieldsPartial", Model.Images)
 </form>
+
+@await Html.PartialAsync("_ImageEditListPartial", Model.Images)
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

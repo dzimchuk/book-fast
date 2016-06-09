@@ -38,17 +38,7 @@
     </p>
 }
 
-@if (Model.Facility.Images != null && Model.Facility.Images.Any())
-{
-    <div class="row">
-        @foreach (var image in Model.Facility.Images)
-        {
-            <div class="col-sm-6 col-md-3">
-                <img class="img-thumbnail" src="@image" alt="">
-            </div>
-        }
-    </div>
-}
+@await Html.PartialAsync("_ImageListPartial", Model.Facility.Images)
 
 <h3>Accommodations</h3>
 
