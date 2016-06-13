@@ -22,8 +22,7 @@ Use environment variables, user-secrets or appsettings.json to configure the pro
         	"ClientSecret": "",
         	"PostLogoutRedirectUri": "e.g. https://localhost:44380/",
         	"Policies": {
-          		"SignInPolicy": "",
-          		"SignUpPolicy": "",
+          		"SignInOrSignUpPolicy": "",
           		"EditProfilePolicy": ""
         	}
       	}

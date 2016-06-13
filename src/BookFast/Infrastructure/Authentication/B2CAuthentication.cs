@@ -45,7 +45,7 @@ namespace BookFast.Infrastructure.Authentication
                 PostLogoutRedirectUri = authOptions.PostLogoutRedirectUri,
 
                 ConfigurationManager = new PolicyConfigurationManager(authOptions.Authority,
-                                               new[] { b2cPolicies.SignInPolicy, b2cPolicies.SignUpPolicy, b2cPolicies.EditProfilePolicy }),
+                                               new[] { b2cPolicies.SignInOrSignUpPolicy, b2cPolicies.EditProfilePolicy }),
                 Events = CreateOpenIdConnectEventHandlers(authOptions, b2cPolicies),
 
                 ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
@@ -66,8 +66,8 @@ namespace BookFast.Infrastructure.Authentication
         {
             return new OpenIdConnectEvents
             {
-                OnRedirectToIdentityProvider = context => SetIssuerAddressAsync(context, policies.SignInPolicy),
-                OnRedirectToIdentityProviderForSignOut = context => SetIssuerAddressForSignOutAsync(context, policies.SignInPolicy),
+                OnRedirectToIdentityProvider = context => SetIssuerAddressAsync(context, policies.SignInOrSignUpPolicy),
+                OnRedirectToIdentityProviderForSignOut = context => SetIssuerAddressForSignOutAsync(context, policies.SignInOrSignUpPolicy),
                 OnAuthorizationCodeReceived = async context =>
                 {
                     var credential = new ClientCredential(authOptions.ClientId, authOptions.ClientSecret);

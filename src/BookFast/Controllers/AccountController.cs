@@ -39,7 +39,7 @@ namespace BookFast.Controllers
             {
                 return new ChallengeResult(
                         AuthConstants.OpenIdConnectB2CAuthenticationScheme, 
-                        new AuthenticationProperties(new Dictionary<string, string> { { AuthConstants.B2CPolicy, policies.SignInPolicy } })
+                        new AuthenticationProperties(new Dictionary<string, string> { { AuthConstants.B2CPolicy, policies.SignInOrSignUpPolicy } })
                         {
                             RedirectUri = "/"
                         });
@@ -47,22 +47,7 @@ namespace BookFast.Controllers
 
             return RedirectHome();
         }
-
-        public IActionResult SignUp()
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return new ChallengeResult(
-                    AuthConstants.OpenIdConnectB2CAuthenticationScheme,
-                    new AuthenticationProperties(new Dictionary<string, string> { { AuthConstants.B2CPolicy, policies.SignUpPolicy } })
-                    {
-                        RedirectUri = "/"
-                    });
-            }
-
-            return RedirectHome();
-        }
-
+        
         public IActionResult Profile()
         {
             if (IsB2CAuthenticated)
@@ -108,9 +93,8 @@ namespace BookFast.Controllers
                 {
                     var acrClaim = User.FindFirst(AuthConstants.AcrClaimType);
                     return acrClaim != null &&
-                        (acrClaim.Value.Equals(policies.SignInPolicy, StringComparison.OrdinalIgnoreCase) ||
-                        acrClaim.Value.Equals(policies.SignUpPolicy, StringComparison.OrdinalIgnoreCase) ||
-                        acrClaim.Value.Equals(policies.EditProfilePolicy, StringComparison.OrdinalIgnoreCase)
+                        (acrClaim.Value.Equals(policies.SignInOrSignUpPolicy, StringComparison.OrdinalIgnoreCase) ||
+                         acrClaim.Value.Equals(policies.EditProfilePolicy, StringComparison.OrdinalIgnoreCase)
                         );
                 }
 
