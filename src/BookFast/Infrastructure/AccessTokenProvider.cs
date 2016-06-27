@@ -13,6 +13,8 @@ namespace BookFast.Infrastructure
         private readonly IAuthorizationService authorizationService;
         private readonly SecurityContext securityContext;
 
+        private const string ObjectId = "http://schemas.microsoft.com/identity/claims/objectidentifier";
+
         public AccessTokenProvider(IOptions<AuthenticationOptions> authOptions, IOptions<B2CAuthenticationOptions> b2cAuthOptions, 
             IAuthorizationService authorizationService, SecurityContext securityContext)
         {
@@ -25,7 +27,15 @@ namespace BookFast.Infrastructure
         public async Task<string> AcquireTokenAsync()
         {
             return await authorizationService.AuthorizeAsync(securityContext.Principal, "FacilityProviderOnly") ?
-                await OrganizationalAuthentication.AcquireAccessTokenAsync(authOptions) : await B2CAuthentication.AcquireAccessTokenAsync(b2cAuthOptions);
+                await OrganizationalAuthentication.AcquireAccessTokenAsync(authOptions, GetUserId()) : await B2CAuthentication.AcquireAccessTokenAsync(b2cAuthOptions);
+        }
+
+        private string GetUserId()
+        {
+            if (securityContext.Principal == null)
+                return null;
+
+            return securityContext.Principal.FindFirst(ObjectId)?.Value;
         }
     }
 }
