@@ -43,7 +43,7 @@ namespace BookFast.Infrastructure.Authentication
                 ClientId = authOptions.ClientId,
                 ClientSecret = authOptions.ClientSecret,
 
-                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
+                ResponseType = OpenIdConnectResponseType.CodeIdToken,
 
                 SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme,
                 PostLogoutRedirectUri = authOptions.PostLogoutRedirectUri,

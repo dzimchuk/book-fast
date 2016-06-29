@@ -48,7 +48,7 @@ namespace BookFast.Infrastructure.Authentication
                                                new[] { b2cPolicies.SignInOrSignUpPolicy, b2cPolicies.EditProfilePolicy }),
                 Events = CreateOpenIdConnectEventHandlers(authOptions, b2cPolicies),
 
-                ResponseType = OpenIdConnectResponseTypes.CodeIdToken,
+                ResponseType = OpenIdConnectResponseType.CodeIdToken,
                 TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = "name"
