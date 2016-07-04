@@ -5,14 +5,11 @@
 namespace BookFast.Proxy.RestClient
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
-    using System.Text.RegularExpressions;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Rest;
@@ -80,7 +77,7 @@ namespace BookFast.Proxy.RestClient
         {
             if (baseUri == null)
             {
-                throw new ArgumentNullException("baseUri");
+                throw new ArgumentNullException(nameof(baseUri));
             }
             this.BaseUri = baseUri;
         }
@@ -101,7 +98,7 @@ namespace BookFast.Proxy.RestClient
         {
             if (baseUri == null)
             {
-                throw new ArgumentNullException("baseUri");
+                throw new ArgumentNullException(nameof(baseUri));
             }
             this.BaseUri = baseUri;
         }
@@ -119,7 +116,7 @@ namespace BookFast.Proxy.RestClient
         {
             if (credentials == null)
             {
-                throw new ArgumentNullException("credentials");
+                throw new ArgumentNullException(nameof(credentials));
             }
             this.Credentials = credentials;
             if (this.Credentials != null)
@@ -144,7 +141,7 @@ namespace BookFast.Proxy.RestClient
         {
             if (credentials == null)
             {
-                throw new ArgumentNullException("credentials");
+                throw new ArgumentNullException(nameof(credentials));
             }
             this.Credentials = credentials;
             if (this.Credentials != null)
@@ -169,11 +166,11 @@ namespace BookFast.Proxy.RestClient
         {
             if (baseUri == null)
             {
-                throw new ArgumentNullException("baseUri");
+                throw new ArgumentNullException(nameof(baseUri));
             }
             if (credentials == null)
             {
-                throw new ArgumentNullException("credentials");
+                throw new ArgumentNullException(nameof(credentials));
             }
             this.BaseUri = baseUri;
             this.Credentials = credentials;
@@ -202,11 +199,11 @@ namespace BookFast.Proxy.RestClient
         {
             if (baseUri == null)
             {
-                throw new ArgumentNullException("baseUri");
+                throw new ArgumentNullException(nameof(baseUri));
             }
             if (credentials == null)
             {
-                throw new ArgumentNullException("credentials");
+                throw new ArgumentNullException(nameof(credentials));
             }
             this.BaseUri = baseUri;
             this.Credentials = credentials;
