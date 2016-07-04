@@ -40,7 +40,7 @@ namespace BookFast.Controllers
             }
             catch (AccommodationNotFoundException)
             {
-                return NotFound();
+                return View("NotFound");
             }
         }
 
@@ -64,7 +64,7 @@ namespace BookFast.Controllers
             }
             catch (AccommodationNotFoundException)
             {
-                return NotFound();
+                return View("NotFound");
             }
         }
 
@@ -77,7 +77,7 @@ namespace BookFast.Controllers
             }
             catch (BookingNotFoundException)
             {
-                return NotFound();
+                return View("NotFound");
             }
         }
 
@@ -93,7 +93,7 @@ namespace BookFast.Controllers
             }
             catch (BookingNotFoundException)
             {
-                return NotFound();
+                return View("NotFound");
             }
             catch (UserMismatchException)
             {
