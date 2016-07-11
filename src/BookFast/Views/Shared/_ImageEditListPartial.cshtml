@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<string>
 
 <div>
-    <div class="row">
+    <div class="row" id="imageList">
         @if (Model != null && Model.Any())
         {
             foreach (var image in Model)
             {
-                <div class="col-sm-6 col-md-3 img_container">
+                <div class="col-sm-6 col-md-3 img-container">
                     <img class="img-thumbnail" src="@image" alt="">
-                    <button class="btn btn_remove_image btn-info" data-image="@image">Remove</button>
+                    <button class="btn btn-remove-image btn-info" data-image="@image">Remove</button>
                 </div>
             }
         }
     </div>
 
-    <button class="btn btn-primary">Add image</button>
+    <button class="btn btn-primary btn-add-image">Add image</button>
 </div>

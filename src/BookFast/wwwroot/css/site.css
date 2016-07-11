@@ -30,11 +30,11 @@ textarea {
   }
 }
 
-.img_container {
+.img-container {
     position: relative;
 }
 
-.btn_remove_image {
+.btn-remove-image {
     position: absolute;
     left: 25px;
     top: 10px;

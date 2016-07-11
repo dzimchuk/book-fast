@@ -15,6 +15,7 @@ namespace BookFast.Proxy.Composition
             services.AddScoped<IAccommodationService, AccommodationProxy>();
             services.AddScoped<IBookingService, BookingProxy>();
             services.AddScoped<ISearchService, SearchProxy>();
+            services.AddScoped<IFileAccessProxy, FileAccessProxy>();
 
             services.Configure<ApiOptions>(configuration.GetSection("BookFastApi"));
             services.AddScoped<IBookFastAPIFactory, BookFastAPIFactory>();
