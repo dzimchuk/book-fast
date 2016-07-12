@@ -14,5 +14,34 @@
         }
     </div>
 
-    <button class="btn btn-primary btn-add-image">Add image</button>
+    <div class="row">
+        <div>
+            <strong>Add image</strong>:
+            <br />
+            <span class="input-control text">
+                <input type="file" id="file" name="file" />
+            </span>
+        </div>
+        <div id="output">
+
+            <strong>File Properties:</strong>
+            <br />
+            <p>
+                Name: <span id="fileName"></span>
+            </p>
+            <p>
+                File Size: <span id="fileSize"></span> bytes.
+            </p>
+            <p>
+                File Type: <span id="fileType"></span>
+            </p>
+            <p>
+                <button class="btn btn-primary btn-add-image">Upload</button>
+            </p>
+            <p>
+                <strong>Progress</strong>: <span id="fileUploadProgress">0.00 %</span>
+            </p>
+        </div>
+    </div>
+    
 </div>
