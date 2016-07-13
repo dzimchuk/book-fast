@@ -46,10 +46,11 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.RenderPartialAsync("_ImageUploadScriptsPartial"); }
     <script type="text/javascript">
         $(function () {
-            var imageHandler = new BookFast.ImageHandler();
-            imageHandler.initialize('facilities', 'imageFields', 'imageList');
+            var imageHandler = new BookFast.ImageHandler('facilities');
+            imageHandler.initialize();
         });
     </script>
 }

@@ -47,4 +47,11 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.RenderPartialAsync("_ImageUploadScriptsPartial"); }
+    <script type="text/javascript">
+            $(function () {
+                var imageHandler = new BookFast.ImageHandler('accommodations');
+                imageHandler.initialize();
+            });
+    </script>
 }
