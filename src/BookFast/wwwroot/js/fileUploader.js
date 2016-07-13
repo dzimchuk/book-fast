@@ -12,7 +12,7 @@
         FileUploader.prototype.upload = function (file) {
             var deferred = $.Deferred();
 
-            this.getSASTokenProvider().getSASToken().done(function (url) {
+            this.getSASTokenProvider().getSASToken(file.name).done(function (url) {
                 var state = createState(file, url);
                 doUpload(state);
             })
@@ -98,7 +98,7 @@
                     }
                 })
                 .done(function () {
-                    deferred.resolve();
+                    deferred.resolve(state.submitUri);
                 })
                 .fail(function (jqxhr, textStatus, error) {
                     var err = textStatus + ", " + error;
@@ -119,7 +119,7 @@
             function createState(file, submitUri) {
                 var maxBlockSize = 256 * 1024;
 
-                var fileSize = selectedFile.size;
+                var fileSize = file.size;
                 var blockSize = fileSize < maxBlockSize ? fileSize : maxBlockSize;
                 var numberOfBlocks = fileSize % blockSize == 0 ? fileSize / blockSize : parseInt(fileSize / blockSize, 10) + 1;
 

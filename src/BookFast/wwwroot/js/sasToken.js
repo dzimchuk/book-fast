@@ -1,6 +1,6 @@
 ﻿var BookFast;
 (function (module) {
-    SASTokenProvider = (function () {
+    var SASTokenProvider = (function () {
         function SASTokenProvider(tokenEndpoint, entityId) {
             var endpoint = tokenEndpoint;
             var id = entityId;
@@ -28,11 +28,11 @@
                     deferred.reject();
                 });
 
-            deferred.promise();
-        }
+            return deferred.promise();
+        };
 
         return SASTokenProvider;
-    });
+    })();
 
     module.SASTokenProvider = SASTokenProvider;
 

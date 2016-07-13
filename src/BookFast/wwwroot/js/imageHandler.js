@@ -30,8 +30,10 @@
                 var id = $('#Id').val();
                 var tokenProvider = new BookFast.SASTokenProvider(e.data.tokenEndpoint, id);
                 var fileUploader = new BookFast.FileUploader(tokenProvider);
-                fileUploader.upload(e.data.fileToUpload).done(function () {
-
+                fileUploader.upload(e.data.fileToUpload)
+                .done(function (submitUri) {
+                    addUIElements(submitUri);
+                    alert('"' + e.data.fileToUpload.name + '" has been upload. Make sure to save the form.');
                 })
                 .fail(function () {
                     alert('Failed to upload image');
@@ -41,6 +43,11 @@
                     fileSelector.val(null);
                 });
             });
+
+            function addUIElements(submitUri) {
+                var uri = submitUri.substring(0, submitUri.indexOf('?'));
+                $('#imageFields').append($('<input type="hidden" value="' + uri + '" name="Images" />'));
+            }
         };
 
         return ImageHandler;
