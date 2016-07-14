@@ -43,6 +43,11 @@ namespace BookFast.Infrastructure.Authentication
                 ClientId = authOptions.ClientId,
                 ClientSecret = authOptions.ClientSecret,
 
+                TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    ValidIssuers = authOptions.ValidIssuersAsArray
+                },
+
                 ResponseType = OpenIdConnectResponseType.CodeIdToken,
 
                 SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme,
